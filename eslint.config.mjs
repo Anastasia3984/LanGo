@@ -1,35 +1,84 @@
-import js from "@eslint/js";
+// eslint.config.mjs
 import globals from "globals";
 import pluginReact from "eslint-plugin-react";
 import pluginPrettier from "eslint-plugin-prettier";
 import { defineConfig } from "eslint/config";
+import babelParser from "@babel/eslint-parser";
 
 export default defineConfig([
   {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
+    files: ["**/*.js"],
     languageOptions: {
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: false,
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest, // Jest globals like 'test', 'expect'
+        ...globals.jest,
       },
     },
-    plugins: { js },
     rules: {
       "no-undef": "error",
     },
   },
-  pluginReact.configs.flat.recommended, // React recommended rules
   {
     files: ["**/*.{js,jsx}"],
-    plugins: { prettier: pluginPrettier },
+    languageOptions: {
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: false,
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.jest,
+      },
+    },
+    plugins: {
+      react: pluginReact,
+      prettier: pluginPrettier,
+    },
     rules: {
-      "prettier/prettier": "error", // enable prettier errors
+      "no-undef": "error",
+      "prettier/prettier": "error",
+      "react/react-in-jsx-scope": "off",
     },
     settings: {
       react: {
         version: "detect",
       },
+    },
+  },
+  {
+    files: ["**/__tests__/**/*.{js,jsx}", "**/*.test.{js,jsx}"],
+    languageOptions: {
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: false,
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+        babelOptions: {
+          presets: ["@babel/preset-react"],
+        },
+      },
+      globals: {
+        ...globals.jest,
+      },
+    },
+    rules: {
+      "no-undef": "off",
     },
   },
 ]);
