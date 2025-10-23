@@ -1,0 +1,40 @@
+.button {
+  font-family: var(--font-family-main);
+  font-size: 25px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--color-white);
+  padding: 0 24px;
+  border: none;
+  border-radius: var(--border-radius-main);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orange {
+  background-color: var(--color-orange-button);
+}
+
+.green {
+  background-color: var(--color-green-button);
+}
+
+.button:not(:disabled):hover {
+  filter: brightness(90%);
+  transform: translateY(-1px);
+}
+
+.button:not(:disabled):active {
+  transform: translateY(0px);
+  filter: brightness(80%);
+}
+
+.button:disabled {
+  background-color: var(--color-grey-modals);
+  color: var(--color-grey-details);
+  cursor: not-allowed;
+}

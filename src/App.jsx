@@ -6,7 +6,7 @@ import TeachPage from "./pages/TeachPage/TeachPage";
 
 function App() {
   return <RegPage />;
-  //return <StudPage />;
+  return <StudPage />;
   //return <TeachPage />;
 }
 

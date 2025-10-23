@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./RegPage.module.css";
 import AuthLayout from "../../layouts/AuthLayout";
 import LogIn from "../../modals/Auth/LogIn";
+import SignUp from "../../modals/Auth/SignUp";
 
 const RegPage = () => {
+  const [isSignUp, setIsSignUp] = useState(false);
+
   return (
     <div className={styles.regPageWrapper}>
       <div className={styles.container}>
@@ -24,9 +27,14 @@ const RegPage = () => {
             simple and comfortable.
           </p>
         </div>
+
         <div className={styles.rightColumn}>
           <AuthLayout>
-            <LogIn />
+            {isSignUp ? (
+              <SignUp key="signup" onSwitchToLogIn={() => setIsSignUp(false)} />
+            ) : (
+              <LogIn key="login" onSwitchToSignUp={() => setIsSignUp(true)} />
+            )}
           </AuthLayout>
         </div>
       </div>
