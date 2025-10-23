@@ -138,7 +138,9 @@
 .logInLink {
   color: #ff5e00;
   text-decoration: none;
-  transition: color 0.3s ease, text-decoration 0.3s ease;
+  transition:
+    color 0.3s ease,
+    text-decoration 0.3s ease;
 }
 
 .logInLink:hover {

@@ -62,7 +62,9 @@
 .signUpLink {
   color: #ff5e00;
   text-decoration: none;
-  transition: color 0.3s ease, text-decoration 0.3s ease;
+  transition:
+    color 0.3s ease,
+    text-decoration 0.3s ease;
 }
 
 .signUpLink:hover {
@@ -70,7 +72,6 @@
   text-decoration: underline;
   cursor: pointer;
 }
-
 
 @keyframes fadeIn {
   from {
