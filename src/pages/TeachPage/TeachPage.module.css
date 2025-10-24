@@ -1,26 +1,25 @@
 .pageWrapper {
   padding: 67px 60px 40px 121px;
-  margin: 0; 
-  color: var(--color-white, #FFFFFF);
+  margin: 0;
+  color: var(--color-white, #ffffff);
 }
 
 .profileSection {
   display: flex;
   align-items: flex-start;
   gap: 110px;
-  
+
   margin-bottom: 20px;
 }
 
 .avatarPlaceholder {
   width: 399px;
   height: 412px;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border-radius: 45px;
   flex-shrink: 0;
   margin-top: -80px;
 }
-
 
 .profileInfo {
   display: flex;
@@ -28,21 +27,21 @@
 }
 
 .profileTitle {
-  font-family: 'Literata', serif;
+  font-family: "Literata", serif;
   font-size: 60px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
   margin-top: 35px;
 }
 
 .profileEmail {
-  font-family: 'Literata', serif;
+  font-family: "Literata", serif;
   font-size: 25px;
   font-weight: 400;
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
-  margin-top: 0; 
+  margin-top: 0;
   margin-bottom: 30px;
   transition: color 0.3s ease;
 }
@@ -57,10 +56,10 @@
 }
 
 .profileButton {
-  width: 310px; 
+  width: 310px;
   height: 75px;
   border-radius: 45px;
-  font-family: 'Lilita One', cursive;
+  font-family: "Lilita One", cursive;
   font-weight: 400;
   font-size: 30px;
 }

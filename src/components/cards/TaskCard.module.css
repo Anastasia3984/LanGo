@@ -1,0 +1,52 @@
+/* src/components/cards/TaskCard.module.css */
+
+.taskCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 12px 20px;
+  text-align: center;
+  font-family: "Literata", serif;
+  font-weight: 500;
+  color: #17204f;
+}
+
+.title,
+.actionLink {
+  color: #17204f;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.title:hover,
+.actionLink:hover {
+  color: var(--color-orange-button, #ff5e00);
+}
+
+.col2 {
+}
+
+.onTime {
+  color: #37b129;
+  font-weight: 700;
+}
+
+.overdue {
+  color: #d00000;
+  font-weight: 700;
+}
+
+.col3 {
+}
+
+.statusText {
+  color: #37b129;
+  font-weight: 700;
+}
+
+.actionLink {
+  font-weight: 700;
+}
