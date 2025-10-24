@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&family=Literata:wght@400;600;700&display=swap");
+:root {
+  --font-family-main: "Literata", serif;
+  --font-family-display: "Lilita One", cursive;
+
+  --color-background: #17204f;
+  --color-orange-button: #ff5e00;
+  --color-green-button: #37b129;
+  --color-grey-details: #6c6c6c;
+  --color-grey-modals: #d9d9d9;
+  --color-white: #ffffff;
+
+  --color-text-main: var(--color-white);
+  --color-text-dark: var(--color-background);
+
+  --border-radius-main: 45px;
+  --border-radius-medium: 20px;
+  --box-shadow-main: 0px 0px 12px rgba(0, 0, 0, 0.1);
+}

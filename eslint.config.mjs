@@ -1,4 +1,3 @@
-// eslint.config.mjs
 import globals from "globals";
 import pluginReact from "eslint-plugin-react";
 import pluginPrettier from "eslint-plugin-prettier";
@@ -6,25 +5,6 @@ import { defineConfig } from "eslint/config";
 import babelParser from "@babel/eslint-parser";
 
 export default defineConfig([
-  {
-    files: ["**/*.js"],
-    languageOptions: {
-      parser: babelParser,
-      parserOptions: {
-        requireConfigFile: false,
-        ecmaVersion: "latest",
-        sourceType: "module",
-      },
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        ...globals.jest,
-      },
-    },
-    rules: {
-      "no-undef": "error",
-    },
-  },
   {
     files: ["**/*.{js,jsx}"],
     languageOptions: {
@@ -35,6 +15,9 @@ export default defineConfig([
         sourceType: "module",
         ecmaFeatures: {
           jsx: true,
+        },
+        babelOptions: {
+          presets: ["@babel/preset-react"],
         },
       },
       globals: {

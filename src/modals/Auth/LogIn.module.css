@@ -1,0 +1,85 @@
+.loginWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.title {
+  font-family: var(--font-family-display);
+  font-weight: 400;
+  font-size: 70px;
+  color: var(--color-orange-button);
+  margin: 0;
+  line-height: 1.1;
+  position: relative;
+  z-index: 2;
+  margin-bottom: -35px;
+}
+
+.whiteBox {
+  width: 350px;
+  height: 450px;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  padding: 60px 30px 30px 30px;
+}
+
+.passwordInput {
+  margin-top: 26px;
+}
+
+.whiteBox .submitButton {
+  width: 200px;
+  height: 55px;
+  margin-top: 35px;
+  border-radius: var(--border-radius-medium);
+}
+
+.signUpText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 63px;
+  font-family: "Literata", serif;
+  font-weight: 300;
+  font-size: 12px;
+  color: #6c6c6c;
+}
+
+.noAccount {
+  color: #6c6c6c;
+}
+
+.signUpLink {
+  color: #ff5e00;
+  text-decoration: none;
+  transition:
+    color 0.3s ease,
+    text-decoration 0.3s ease;
+}
+
+.signUpLink:hover {
+  color: #ff8133;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

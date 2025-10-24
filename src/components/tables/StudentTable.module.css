@@ -1,0 +1,69 @@
+.tableContainer {
+  margin-top: 50px;
+  width: calc(100% + 121px + 60px);
+  margin-left: -121px;
+}
+
+.tableTitle {
+  background-color: var(--color-orange-button, #ff5e00);
+  color: var(--color-white, #fff);
+  font-family: "Literata", serif;
+  font-weight: 700;
+  font-size: 30px;
+  text-transform: lowercase;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+
+.studentTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 9px;
+  box-sizing: border-box;
+}
+
+.studentTable td {
+  background-color: #d9d9d9;
+  color: #17204f;
+  padding: 15px;
+  font-family: "Literata", serif;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  text-align: center;
+  border: 1px solid #707070;
+}
+
+.nameCell,
+.addHomeworkCell {
+  color: var(--color-orange-button, #ff5e00);
+  font-family: "Literata", serif;
+  font-weight: 700;
+  font-size: 90px;
+  cursor: pointer;
+}
+
+.solvedCell {
+  color: var(--color-orange-button, #ff5e00);
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.emailCell {
+  font-weight: 500;
+}
+.emailCell:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--color-orange-button, #ff5e00);
+}
+
+.nameCell:hover,
+.addHomeworkCell:hover,
+.solvedCell:hover {
+  color: #ff8133;
+  transform: scale(1.05);
+}

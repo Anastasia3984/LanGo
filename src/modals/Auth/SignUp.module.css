@@ -1,0 +1,150 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signupWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.title {
+  font-family: var(--font-family-display);
+  font-weight: 400;
+  font-size: 70px;
+  color: var(--color-orange-button);
+  margin: 0;
+  line-height: 1.1;
+  position: relative;
+  z-index: 2;
+  margin-bottom: -35px;
+}
+
+.whiteBox {
+  width: 350px;
+  height: 530px;
+  background-color: var(--color-white);
+  border-radius: 40px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  padding: 60px 30px 30px 30px;
+  box-sizing: border-box;
+}
+
+.firstInput {
+  margin-top: 23px;
+}
+
+.subsequentInput {
+  margin-top: 23px;
+}
+
+.passwordGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.passwordHint {
+  font-family: "Literata", serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #6c6c6c;
+  align-self: flex-start;
+  margin-left: 10px;
+  margin-top: 6px;
+}
+
+.roleButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.roleButton {
+  width: 139px;
+  height: 55px;
+  border-radius: 45px;
+  font-family: "Literata", serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #17204f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+}
+
+.studentButton {
+  background-color: rgba(55, 177, 41, 0.43);
+}
+
+.teacherButton {
+  background-color: rgba(255, 93, 0, 0.43);
+}
+
+.roleButton:hover {
+  filter: brightness(90%);
+  cursor: pointer;
+}
+
+.studentButton.active {
+  border: 2px solid #37b129;
+}
+
+.teacherButton.active {
+  border: 2px solid #ff5d00;
+}
+
+.whiteBox .submitButton {
+  width: 226px;
+  height: 80px;
+  margin-top: 25px;
+  border-radius: var(--border-radius-medium);
+}
+
+.logInText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+  font-family: "Literata", serif;
+  font-weight: 300;
+  font-size: 12px;
+  color: #6c6c6c;
+}
+
+.noAccount {
+  color: #6c6c6c;
+}
+
+.logInLink {
+  color: #ff5e00;
+  text-decoration: none;
+  transition:
+    color 0.3s ease,
+    text-decoration 0.3s ease;
+}
+
+.logInLink:hover {
+  color: #ff8133;
+  text-decoration: underline;
+  cursor: pointer;
+}
