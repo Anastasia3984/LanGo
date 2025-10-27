@@ -3,12 +3,19 @@ import Header from "../components/layout/Header";
 import styles from "./MainLayout.module.css";
 
 const MainLayout = ({ children }) => {
-  const [notification, setNotification] = useState("Homework has been added");
+  const [notification, setNotification] = useState("");
 
   return (
     <div className={styles.layoutWrapper}>
-      <Header notificationMessage={notification} />
-      <main className={styles.content}>{children}</main>
+      <Header
+        notificationMessage={notification}
+        setNotification={setNotification}
+      />
+      <main className={styles.content}>
+        {React.Children.map(children, (child) =>
+          React.cloneElement(child, { setNotification }),
+        )}
+      </main>
     </div>
   );
 };

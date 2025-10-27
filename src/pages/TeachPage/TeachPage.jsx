@@ -1,10 +1,11 @@
-// src/pages/TeachPage/TeachPage.jsx
 import React, { useState } from "react";
 import styles from "./TeachPage.module.css";
 import MainLayout from "../../layouts/MainLayout";
 import Button from "../../components/common/Button";
 import StudentTable from "../../components/tables/StudentTable";
 import Pagination from "../../components/layout/Pagination";
+import { useModal } from "../../hooks/useModal";
+import InviteStud from "../../modals/Students/InviteStud";
 
 const allStudents = [
   {
@@ -75,8 +76,9 @@ const allStudents = [
 
 const STUDENTS_PER_PAGE = 5;
 
-const TeachPage = () => {
+const TeachPage = ({ setNotification }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const { openModal } = useModal();
 
   const totalPages = Math.ceil(allStudents.length / STUDENTS_PER_PAGE);
   const indexOfLastStudent = currentPage * STUDENTS_PER_PAGE;
@@ -106,6 +108,10 @@ const TeachPage = () => {
     }
   };
 
+  const handleInviteStudent = () => {
+    openModal(<InviteStud />, { setNotification });
+  };
+
   return (
     <MainLayout>
       <div className={styles.pageWrapper}>
@@ -117,7 +123,11 @@ const TeachPage = () => {
               teacher@gmail.com
             </a>
             <div className={styles.buttonGroup}>
-              <Button variant="orange" className={styles.profileButton}>
+              <Button
+                variant="orange"
+                className={styles.profileButton}
+                onClick={handleInviteStudent}
+              >
                 Invite student
               </Button>
               <Button variant="orange" className={styles.profileButton}>
