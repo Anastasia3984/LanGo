@@ -10,18 +10,35 @@ const InviteStud = ({ closeModal, setNotification }) => {
     "Hello! I'd like to invite you to join our learning platform.",
   );
 
+  console.log("🔍 InviteStud props:", { closeModal, setNotification });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log("✅ Form submitted!");
+    console.log("📧 Email:", email);
     if (email.trim()) {
-      console.log("Sending invitation to:", { email, message });
+      console.log("🎉 Email is valid, proceeding...");
+      if (typeof setNotification === "function") {
+        console.log("✅ setNotification is a function, calling it...");
+        setNotification("Invitation was sent to student's email!");
+      } else {
+        console.error("❌ setNotification is NOT a function:", setNotification);
+      }
 
-      setNotification("Invitation was sent to student's email!");
-      closeModal();
+      if (typeof closeModal === "function") {
+        console.log("✅ closeModal is a function, calling it...");
+        closeModal();
+      } else {
+        console.error("❌ closeModal is NOT a function:", closeModal);
+      }
 
       setTimeout(() => {
-        setNotification("");
-      }, 3000);
+        if (typeof setNotification === "function") {
+          setNotification("");
+        }
+      }, 5000);
+    } else {
+      console.log("❌ Email is empty!");
     }
   };
 

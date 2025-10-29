@@ -7,14 +7,14 @@ const MainLayout = ({ children }) => {
 
   return (
     <div className={styles.layoutWrapper}>
-      <Header
-        notificationMessage={notification}
-        setNotification={setNotification}
-      />
+      <Header notificationMessage={notification} />
       <main className={styles.content}>
-        {React.Children.map(children, (child) =>
-          React.cloneElement(child, { setNotification }),
-        )}
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child) && typeof child.type === "function") {
+            return React.cloneElement(child, { setNotification });
+          }
+          return child;
+        })}
       </main>
     </div>
   );

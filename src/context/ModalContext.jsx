@@ -20,7 +20,6 @@ export const ModalProvider = ({ children }) => {
   return (
     <ModalContext.Provider value={{ openModal, closeModal, modalProps }}>
       {children}
-
       {modalContent && <ModalWrapper>{modalContent}</ModalWrapper>}
     </ModalContext.Provider>
   );

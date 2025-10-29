@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./TeachPage.module.css";
-import MainLayout from "../../layouts/MainLayout";
 import Button from "../../components/common/Button";
 import StudentTable from "../../components/tables/StudentTable";
 import Pagination from "../../components/layout/Pagination";
@@ -109,48 +108,47 @@ const TeachPage = ({ setNotification }) => {
   };
 
   const handleInviteStudent = () => {
+    console.log("🚀 Opening modal with setNotification:", setNotification);
     openModal(<InviteStud />, { setNotification });
   };
 
   return (
-    <MainLayout>
-      <div className={styles.pageWrapper}>
-        <section className={styles.profileSection}>
-          <div className={styles.avatarPlaceholder}></div>
-          <div className={styles.profileInfo}>
-            <h1 className={styles.profileTitle}>Teacher</h1>
-            <a href="mailto:teacher@gmail.com" className={styles.profileEmail}>
-              teacher@gmail.com
-            </a>
-            <div className={styles.buttonGroup}>
-              <Button
-                variant="orange"
-                className={styles.profileButton}
-                onClick={handleInviteStudent}
-              >
-                Invite student
-              </Button>
-              <Button variant="orange" className={styles.profileButton}>
-                Add homework
-              </Button>
-            </div>
+    <div className={styles.pageWrapper}>
+      <section className={styles.profileSection}>
+        <div className={styles.avatarPlaceholder}></div>
+        <div className={styles.profileInfo}>
+          <h1 className={styles.profileTitle}>Teacher</h1>
+          <a href="mailto:teacher@gmail.com" className={styles.profileEmail}>
+            teacher@gmail.com
+          </a>
+          <div className={styles.buttonGroup}>
+            <Button
+              variant="orange"
+              className={styles.profileButton}
+              onClick={handleInviteStudent}
+            >
+              Invite student
+            </Button>
+            <Button variant="orange" className={styles.profileButton}>
+              Add homework
+            </Button>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <StudentTable
-          students={currentStudents}
-          onNameClick={handleNameClick}
-          onAddHomeworkClick={handleAddHomeworkClick}
-          onSolvedClick={handleSolvedClick}
-        />
+      <StudentTable
+        students={currentStudents}
+        onNameClick={handleNameClick}
+        onAddHomeworkClick={handleAddHomeworkClick}
+        onSolvedClick={handleSolvedClick}
+      />
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      </div>
-    </MainLayout>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+    </div>
   );
 };
 

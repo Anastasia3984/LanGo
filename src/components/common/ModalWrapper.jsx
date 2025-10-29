@@ -5,7 +5,7 @@ import { CloseButton } from "./CloseButton";
 
 const ModalWrapper = ({ children }) => {
   const { closeModal, modalProps } = useModal();
-
+  console.log("🎁 ModalWrapper modalProps:", modalProps);
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();

@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./Header.module.css";
 
 const Header = ({ notificationMessage }) => {
+  console.log("📢 Header received notification:", notificationMessage);
+
   return (
     <header className={styles.header}>
       {notificationMessage && (

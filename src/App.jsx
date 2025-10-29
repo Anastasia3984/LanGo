@@ -1,15 +1,18 @@
 import React from "react";
 import { ModalProvider } from "./context/ModalContext";
+import MainLayout from "./layouts/MainLayout";
 import RegPage from "./pages/RegPage/RegPage";
-import StudPage from "./pages/StudPage/StudPage";
 import TeachPage from "./pages/TeachPage/TeachPage";
+import StudPage from "./pages/StudPage/StudPage";
 
 function App() {
   return (
     <ModalProvider>
-      {/* <RegPage /> */}
-      {/* <StudPage /> */}
-      <TeachPage />
+      <MainLayout>
+        {/*<RegPage />*/}
+        <TeachPage />
+        {/*<StudPage />*/}
+      </MainLayout>
     </ModalProvider>
   );
 }
