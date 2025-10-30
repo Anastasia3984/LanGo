@@ -1,0 +1,136 @@
+.wrapper {
+  width: 340px;
+  position: relative;
+}
+
+.toolbar {
+  background-color: #d9d9d9;
+  border-radius: 24px 24px 0 0;
+  padding: 8px 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.linkButton {
+  background-color: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "Literata", serif;
+  transition: background-color 0.2s;
+}
+
+.linkButton:hover {
+  background-color: rgba(255, 107, 53, 0.1);
+}
+
+.textarea {
+  width: 100%;
+  padding: 18px 24px;
+  border: none;
+  border-radius: 0 0 24px 24px;
+  background-color: #e8e8e8;
+  font-size: 16px;
+  font-family: "Literata", serif;
+  color: #666;
+  outline: none;
+  transition: background-color 0.2s;
+  resize: none;
+  min-height: 30px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.textarea::placeholder {
+  color: #999;
+}
+
+.textarea:focus {
+  background-color: #ddd;
+}
+
+.linkDialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.dialogContent {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.dialogContent h3 {
+  margin: 0 0 16px 0;
+  color: #ff6b35;
+  font-family: "Literata", serif;
+}
+
+.dialogContent p {
+  margin: 0 0 16px 0;
+  font-family: "Literata", serif;
+  color: #666;
+}
+
+.urlInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: "Literata", serif;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.urlInput:focus {
+  outline: none;
+  border-color: #ff6b35;
+}
+
+.dialogButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.confirmBtn,
+.cancelBtn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: "Literata", serif;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.confirmBtn {
+  background-color: #ff6b35;
+  color: white;
+}
+
+.confirmBtn:hover {
+  background-color: #ff5722;
+}
+
+.cancelBtn {
+  background-color: #e8e8e8;
+  color: #666;
+}
+
+.cancelBtn:hover {
+  background-color: #ddd;
+}

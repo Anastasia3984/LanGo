@@ -5,6 +5,7 @@ import StudentTable from "../../components/tables/StudentTable";
 import Pagination from "../../components/layout/Pagination";
 import { useModal } from "../../hooks/useModal";
 import InviteStud from "../../modals/Students/InviteStud";
+import AddHomework from "../../modals/Homework/AddHomework";
 
 const allStudents = [
   {
@@ -92,7 +93,14 @@ const TeachPage = ({ setNotification }) => {
   };
 
   const handleAddHomeworkClick = (studentId) => {
-    console.log("Open 'Add HW' modal for student:", studentId);
+    const student = allStudents.find((s) => s.id === studentId);
+    openModal(
+      <AddHomework
+        studentName={student?.name || ""}
+        allStudents={allStudents}
+      />,
+      { setNotification },
+    );
   };
 
   const handleSolvedClick = (studentId, solvedCount) => {
@@ -108,8 +116,11 @@ const TeachPage = ({ setNotification }) => {
   };
 
   const handleInviteStudent = () => {
-    console.log("🚀 Opening modal with setNotification:", setNotification);
     openModal(<InviteStud />, { setNotification });
+  };
+
+  const handleAddHomework = () => {
+    openModal(<AddHomework allStudents={allStudents} />, { setNotification });
   };
 
   return (
@@ -129,7 +140,11 @@ const TeachPage = ({ setNotification }) => {
             >
               Invite student
             </Button>
-            <Button variant="orange" className={styles.profileButton}>
+            <Button
+              variant="orange"
+              className={styles.profileButton}
+              onClick={handleAddHomework}
+            >
               Add homework
             </Button>
           </div>

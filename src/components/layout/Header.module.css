@@ -18,7 +18,9 @@
   font-size: 16px;
   font-weight: 500;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  animation: slideInLeft 0.3s ease-out, fadeOut 2s ease-in 3s;
+  animation:
+    slideInLeft 0.3s ease-out,
+    fadeOut 2s ease-in 3s;
   z-index: 100;
   white-space: nowrap;
 }
