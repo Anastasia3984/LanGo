@@ -1,0 +1,161 @@
+.profileModal {
+  background: white;
+  border-radius: 32px;
+  padding: 40px 40px 40px;
+  width: 420px;
+  max-height: 500px;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 60px;
+  font-weight: 400;
+  color: #ff6b35;
+  text-align: center;
+  margin: 0 0 30px 0;
+  font-family: "Lilita One", cursive;
+  line-height: 1;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #17204f;
+  font-family: "Literata", serif;
+  margin: 0 0 -15px 15px;
+  text-align: left;
+}
+
+.tasksList {
+  background-color: #e8e8e8;
+  border-radius: 24px;
+  padding: 20px 24px;
+  min-height: 150px;
+  max-height: 350px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.tasksList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tasksList::-webkit-scrollbar-track {
+  background: #d9d9d9;
+  border-radius: 10px;
+}
+
+.tasksList::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 10px;
+}
+
+.tasksList::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.taskItem {
+  font-size: 16px;
+  font-family: "Literata", serif;
+  color: #666;
+  padding: 10px 12px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  line-height: 1.4;
+  transition: background-color 0.2s;
+  cursor: pointer; /* 👈 Додай це */
+}
+
+
+.taskItem:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.noTasks {
+  text-align: center;
+  color: #999;
+  font-family: "Literata", serif;
+  font-style: italic;
+  margin: auto;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+
+.profileButton,
+.deleteButton {
+  width: 100%;
+  padding: 16px;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: "Literata", serif;
+}
+
+.profileButton {
+  background-color: #4caf50;
+}
+
+.profileButton:hover {
+  background-color: #45a049;
+}
+
+.deleteButton {
+  background-color: #ff9b7a;
+}
+
+.deleteButton:hover {
+  background-color: #ff8860;
+}
+
+@media (max-width: 640px) {
+  .profileModal {
+    width: 90%;
+    max-width: 500px;
+    padding: 50px 30px 30px;
+  }
+
+  .title {
+    font-size: 48px;
+    top: -24px;
+  }
+
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .tasksList {
+    max-height: 200px;
+    padding: 16px 20px;
+  }
+
+  .profileButton,
+  .deleteButton {
+    font-size: 18px;
+    padding: 14px;
+  }
+}

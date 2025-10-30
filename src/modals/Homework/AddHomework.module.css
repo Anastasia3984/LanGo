@@ -91,7 +91,7 @@
   font-weight: 500;
   font-family: "Literata", serif;
   margin: 20px auto 0;
-  margin: 10px auto 0; 
+  margin: 10px auto 0;
 }
 
 @media (max-width: 640px) {
@@ -127,17 +127,17 @@
   }
 
   .descriptionWrapper {
-  position: relative;
-}
+    position: relative;
+  }
 
-.hint {
-  font-size: 11px;
-  color: #999;
-  margin-top: 4px;
-  padding-left: 24px;
-  font-family: "Literata", serif;
-}
-.richEditor {
-  margin: 0;
-}
+  .hint {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+    padding-left: 24px;
+    font-family: "Literata", serif;
+  }
+  .richEditor {
+    margin: 0;
+  }
 }
