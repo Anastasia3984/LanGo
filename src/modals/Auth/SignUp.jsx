@@ -5,6 +5,7 @@ import Button from "../../components/common/Button";
 
 const SignUp = ({ onSwitchToLogIn }) => {
   const [role, setRole] = useState(null);
+  const [gender, setGender] = useState(null);
 
   return (
     <div className={styles.signupWrapper}>
@@ -27,6 +28,28 @@ const SignUp = ({ onSwitchToLogIn }) => {
           <p className={styles.passwordHint}>
             *password must contain at least 8 characters
           </p>
+        </div>
+
+        {/* 👇 Вибір статі */}
+        <div className={`${styles.genderButtons} ${styles.subsequentInput}`}>
+          <button
+            type="button"
+            className={`${styles.genderButton} ${styles.maleButton} ${
+              gender === "male" ? styles.genderActive : ""
+            }`}
+            onClick={() => setGender("male")}
+          >
+            Male
+          </button>
+          <button
+            type="button"
+            className={`${styles.genderButton} ${styles.femaleButton} ${
+              gender === "female" ? styles.genderActive : ""
+            }`}
+            onClick={() => setGender("female")}
+          >
+            Female
+          </button>
         </div>
 
         <div className={styles.roleButtons}>

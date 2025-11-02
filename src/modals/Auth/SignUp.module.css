@@ -45,11 +45,11 @@
 }
 
 .firstInput {
-  margin-top: 23px;
+  margin-top: -10px;
 }
 
 .subsequentInput {
-  margin-top: 23px;
+  margin-top: 10px;
 }
 
 .passwordGroup {
@@ -147,4 +147,41 @@
   color: #ff8133;
   text-decoration: underline;
   cursor: pointer;
+}
+.genderButtons {
+  display: flex;
+  gap: 15px;
+}
+
+.genderButton {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: "Literata", serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+}
+
+.genderButton:hover {
+  opacity: 0.8;
+}
+
+.maleButton {
+  background-color: #a8d8ea;
+  color: #17204f;
+}
+
+.femaleButton {
+  background-color: #ffb6c1;
+  color: #17204f;
+}
+
+.genderActive {
+  opacity: 1;
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }

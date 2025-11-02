@@ -190,6 +190,11 @@
   color: #d00000;
   font-weight: 700;
 }
+.unchecked {
+  color: #17204f;
+  font-weight: 700;
+}
+
 .statusText {
   color: #37b129;
 }

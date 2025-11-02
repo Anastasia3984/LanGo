@@ -6,15 +6,34 @@ import TeachPage from "./pages/TeachPage/TeachPage";
 import StudPage from "./pages/StudPage/StudPage";
 
 function App() {
+  const isRegPage = false;
+
+  if (isRegPage) {
+    return (
+      <ModalProvider>
+        <RegPage />
+      </ModalProvider>
+    );
+  }
+
   return (
     <ModalProvider>
       <MainLayout>
-        {/*<RegPage />*/}
-        <TeachPage />
-        {/*<StudPage />*/}
+        {/* <TeachPage /> */}
+        <StudPage />
       </MainLayout>
     </ModalProvider>
   );
 }
 
 export default App;
+
+/*
+додати в модальне вікно вибір дати дедлайну (календар)
+
+потім:
+1.додати модалки на сторінці студента, які відкриваються користувачу з роллю викладача(Edit + Checked)
+2.при натисканні на кількість неперевірених робіт - відкривається модалка зі списком цих робіт, 
+якщо натиснути на роботу, відкривається модалка з роботою (ViewSolvedHomework)
+3.додати аватар відповідно до статі користувача
+*/
