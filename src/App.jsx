@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { ModalProvider } from "./context/ModalContext";
 import MainLayout from "./layouts/MainLayout";
 import RegPage from "./pages/RegPage/RegPage";
@@ -6,7 +6,7 @@ import TeachPage from "./pages/TeachPage/TeachPage";
 import StudPage from "./pages/StudPage/StudPage";
 
 function App() {
-  const isRegPage = false;
+  const isRegPage = true;
 
   if (isRegPage) {
     return (
@@ -19,17 +19,18 @@ function App() {
   return (
     <ModalProvider>
       <MainLayout>
-        {/* <TeachPage /> */}
+        {/* <TeachPage /> */ /*}
         <StudPage />
       </MainLayout>
     </ModalProvider>
   );
 }
 
-export default App;
-
+export default App;*/
 /*
-додати в модальне вікно вибір дати дедлайну (календар)
+todo
+лабка 5
+
 
 потім:
 1.додати модалки на сторінці студента, які відкриваються користувачу з роллю викладача(Edit + Checked)

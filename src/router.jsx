@@ -1,13 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout.jsx";
-import AuthLayout from "./layouts/AuthLayout.jsx";
-import TeachPage from "./pages/TeachPage/TeachPage.jsx";
-import StudPage from "./pages/StudPage/StudPage.jsx";
-import RegPage from "./pages/RegPage/RegPage.jsx";
+import MainLayout from "./layouts/MainLayout";
+import RegPage from "./pages/RegPage/RegPage";
+import TeachPage from "./pages/TeachPage/TeachPage";
+import StudPage from "./pages/StudPage/StudPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <RegPage />,
+  },
+  {
+    path: "/teacher",
     element: <MainLayout />,
     children: [
       {
@@ -15,18 +18,18 @@ const router = createBrowserRouter([
         element: <TeachPage />,
       },
       {
-        path: "student",
-        element: <StudPage />,
+        path: "student/:studentId",
+        element: <StudPage userRole="teacher" />,
       },
     ],
   },
   {
-    path: "/auth",
-    element: <AuthLayout />,
+    path: "/student",
+    element: <MainLayout />,
     children: [
       {
-        path: "register",
-        element: <RegPage />,
+        index: true,
+        element: <StudPage userRole="student" />,
       },
     ],
   },

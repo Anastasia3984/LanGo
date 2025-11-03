@@ -14,10 +14,12 @@ const AddHomework = ({
   const [description, setDescription] = useState("");
   const [student, setStudent] = useState(studentName);
   const [dueDate, setDueDate] = useState("");
+  const [dueTime, setDueTime] = useState("");
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
+
     if (student.trim()) {
       const studentExists = allStudents.some(
         (s) => s.name.toLowerCase() === student.trim().toLowerCase(),
@@ -26,10 +28,21 @@ const AddHomework = ({
         newErrors.student = "Student not found!";
       }
     }
-    if (dueDate.trim()) {
-      const dateRegex = /^(\d{2})[\/\.](\d{2})[\/\.](\d{4})$/;
-      if (!dateRegex.test(dueDate)) {
-        newErrors.dueDate = "Format: DD/MM/YYYY or DD.MM.YYYY";
+
+    if (!dueDate) {
+      newErrors.dueDate = "Please select due date";
+    }
+
+    if (!dueTime) {
+      newErrors.dueTime = "Please select due time";
+    }
+
+    if (dueDate && dueTime) {
+      const selectedDateTime = new Date(`${dueDate}T${dueTime}`);
+      const now = new Date();
+
+      if (selectedDateTime <= now) {
+        newErrors.dueDate = "Due date must be in the future";
       }
     }
 
@@ -42,11 +55,14 @@ const AddHomework = ({
 
     if (title.trim() && student.trim()) {
       if (validateForm()) {
+        const dueDateTimeString = `${dueDate}T${dueTime}`;
+        const dueDateTimeObject = new Date(dueDateTimeString);
+
         console.log("Adding homework:", {
           title,
           description,
           student,
-          dueDate,
+          dueDate: dueDateTimeObject,
         });
 
         if (typeof setNotification === "function") {
@@ -101,24 +117,25 @@ const AddHomework = ({
             required
           />
           {errors.student && (
-            <div
+            <p
               style={{
                 color: "#d00000",
-                fontSize: "12px",
-                paddingLeft: "15px",
+                fontSize: "13px",
+                marginTop: "5px",
+                paddingLeft: "24px",
                 fontFamily: "Literata, serif",
                 fontWeight: "500",
               }}
             >
               {errors.student}
-            </div>
+            </p>
           )}
         </div>
 
         <div>
           <InputField
-            type="text"
-            placeholder="Due date (DD/MM/YYYY)"
+            type="date"
+            placeholder="Due date"
             value={dueDate}
             onChange={(e) => {
               setDueDate(e.target.value);
@@ -127,19 +144,51 @@ const AddHomework = ({
               }
             }}
             className={styles.inputField}
+            required
           />
           {errors.dueDate && (
-            <div
+            <p
               style={{
                 color: "#d00000",
-                fontSize: "12px",
-                paddingLeft: "15px",
+                fontSize: "13px",
+                marginTop: "5px",
+                paddingLeft: "24px",
                 fontFamily: "Literata, serif",
                 fontWeight: "500",
               }}
             >
               {errors.dueDate}
-            </div>
+            </p>
+          )}
+        </div>
+
+        <div>
+          <InputField
+            type="time"
+            placeholder="Due time"
+            value={dueTime}
+            onChange={(e) => {
+              setDueTime(e.target.value);
+              if (errors.dueTime) {
+                setErrors({ ...errors, dueTime: "" });
+              }
+            }}
+            className={styles.inputField}
+            required
+          />
+          {errors.dueTime && (
+            <p
+              style={{
+                color: "#d00000",
+                fontSize: "13px",
+                marginTop: "5px",
+                paddingLeft: "24px",
+                fontFamily: "Literata, serif",
+                fontWeight: "500",
+              }}
+            >
+              {errors.dueTime}
+            </p>
           )}
         </div>
 

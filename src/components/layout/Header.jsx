@@ -1,8 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 
 const Header = ({ notificationMessage }) => {
-  console.log("📢 Header received notification:", notificationMessage);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
+
+    console.log("Logging out...");
+    navigate("/");
+  };
 
   return (
     <header className={styles.header}>
@@ -13,6 +22,10 @@ const Header = ({ notificationMessage }) => {
       )}
 
       <div className={styles.rightSection}>
+        <button className={styles.logoutButton} onClick={handleLogout}>
+          Log out
+        </button>
+
         <span className={styles.logo}>LanGo</span>
         <div className={styles.avatarCircle}></div>
       </div>

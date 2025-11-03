@@ -9,10 +9,14 @@ const StudentProfile = ({
   openModal,
   setNotification,
   onDeleteStudent,
+  navigate,
 }) => {
   const handleVisitProfile = () => {
     console.log("Visiting profile of:", student.name);
-    closeModal();
+    if (closeModal) {
+      closeModal();
+    }
+    navigate(`/teacher/student/${student.id}`);
   };
 
   const handleDeleteStudent = () => {
@@ -24,8 +28,9 @@ const StudentProfile = ({
           openModal={openModal}
           setNotification={setNotification}
           onDeleteStudent={onDeleteStudent}
+          navigate={navigate}
+          closeModal={closeModal}
         />,
-        { setNotification },
       );
     };
 
@@ -34,8 +39,8 @@ const StudentProfile = ({
         student={student}
         onDeleteStudent={onDeleteStudent}
         onCancel={handleCancelDelete}
+        setNotification={setNotification}
       />,
-      { setNotification },
     );
   };
 
@@ -55,6 +60,12 @@ const StudentProfile = ({
 
   return (
     <div className={styles.profileModal}>
+      {closeModal && (
+        <button className={styles.closeButton} onClick={closeModal}>
+          &times;
+        </button>
+      )}
+
       <h2 className={styles.title}>{student.name}</h2>
 
       <div className={styles.content}>

@@ -1,20 +1,16 @@
 import React, { useState } from "react";
 import Header from "../components/layout/Header";
+import { Outlet } from "react-router-dom";
 import styles from "./MainLayout.module.css";
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   const [notification, setNotification] = useState("");
 
   return (
     <div className={styles.layoutWrapper}>
       <Header notificationMessage={notification} />
       <main className={styles.content}>
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child) && typeof child.type === "function") {
-            return React.cloneElement(child, { setNotification });
-          }
-          return child;
-        })}
+        <Outlet context={{ setNotification }} />
       </main>
     </div>
   );

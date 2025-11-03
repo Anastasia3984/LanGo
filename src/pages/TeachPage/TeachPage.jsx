@@ -7,10 +7,14 @@ import { useModal } from "../../hooks/useModal";
 import InviteStud from "../../modals/Students/InviteStud";
 import AddHomework from "../../modals/Homework/AddHomework";
 import StudentProfile from "../../modals/Students/StudentProfile";
+import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const STUDENTS_PER_PAGE = 5;
 
-const TeachPage = ({ setNotification }) => {
+const TeachPage = () => {
+  const navigate = useNavigate();
+  const { setNotification } = useOutletContext();
   const [allStudents, setAllStudents] = useState([
     {
       id: 1,
@@ -109,6 +113,7 @@ const TeachPage = ({ setNotification }) => {
         openModal={openModal}
         setNotification={setNotification}
         onDeleteStudent={handleDeleteStudent}
+        navigate={navigate}
       />,
       { setNotification },
     );

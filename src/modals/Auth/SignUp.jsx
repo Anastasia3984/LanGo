@@ -2,35 +2,73 @@ import React, { useState } from "react";
 import styles from "./SignUp.module.css";
 import InputField from "../../components/common/InputField";
 import Button from "../../components/common/Button";
-
-const SignUp = ({ onSwitchToLogIn }) => {
+const SignUp = ({ onSwitchToLogIn, onAuthSuccess }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState(null);
   const [gender, setGender] = useState(null);
+  const [error, setError] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    if (!name || !email || !password || !role) {
+      setError(
+        "Please fill in all required fields (Name, Email, Password, Role)",
+      );
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must contain at least 8 characters");
+      return;
+    }
+    if (!role) {
+      setError("Please select a role (student or teacher)");
+      return;
+    }
+
+    try {
+      const registrationData = { name, email, password, role, gender };
+      console.log("Відправка на сервер:", registrationData);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      const registeredRole = role;
+      onAuthSuccess(registeredRole);
+    } catch (err) {
+      console.error("Registration failed:", err);
+      setError("Failed to create account. Please try again.");
+    }
+  };
 
   return (
     <div className={styles.signupWrapper}>
       <h2 className={styles.title}>Sign up</h2>
-
-      <div className={styles.whiteBox}>
+      <form className={styles.whiteBox} onSubmit={handleSubmit}>
         <InputField
           type="text"
           placeholder="Name"
           className={styles.firstInput}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <InputField
           type="email"
           placeholder="Email"
           className={styles.subsequentInput}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <div className={`${styles.passwordGroup} ${styles.subsequentInput}`}>
-          <InputField type="password" placeholder="Password" />
+          <InputField
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <p className={styles.passwordHint}>
             *password must contain at least 8 characters
           </p>
         </div>
-
-        {/* 👇 Вибір статі */}
         <div className={`${styles.genderButtons} ${styles.subsequentInput}`}>
           <button
             type="button"
@@ -54,6 +92,7 @@ const SignUp = ({ onSwitchToLogIn }) => {
 
         <div className={styles.roleButtons}>
           <Button
+            type="button"
             className={`${styles.roleButton} ${styles.studentButton} ${
               role === "student" ? styles.active : ""
             }`}
@@ -62,6 +101,7 @@ const SignUp = ({ onSwitchToLogIn }) => {
             student
           </Button>
           <Button
+            type="button"
             className={`${styles.roleButton} ${styles.teacherButton} ${
               role === "teacher" ? styles.active : ""
             }`}
@@ -70,6 +110,7 @@ const SignUp = ({ onSwitchToLogIn }) => {
             teacher
           </Button>
         </div>
+        {error && <p className={styles.errorText}>{error}</p>}
 
         <Button type="submit" variant="orange" className={styles.submitButton}>
           Sign up
@@ -80,7 +121,7 @@ const SignUp = ({ onSwitchToLogIn }) => {
             Log in
           </span>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

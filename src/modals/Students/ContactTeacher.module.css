@@ -76,7 +76,6 @@
   overflow-y: auto;
 }
 
-/* Кастомний скролбар для textarea */
 .textarea::-webkit-scrollbar {
   width: 6px;
 }

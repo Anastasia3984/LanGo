@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import styles from "./StudPage.module.css";
 import Button from "../../components/common/Button";
 import { useModal } from "../../hooks/useModal";
@@ -195,7 +196,11 @@ const initialUnsolvedTasks = [
   },
 ];
 
-const StudPage = ({ setNotification }) => {
+const StudPage = ({ userRole = "student" }) => {
+  const { setNotification } = useOutletContext();
+  const { studentId } = useParams();
+  const navigate = useNavigate();
+
   const [solvedTasks, setSolvedTasks] = useState(initialSolvedTasks);
   const [unsolvedTasks, setUnsolvedTasks] = useState(initialUnsolvedTasks);
   const [solvedPage, setSolvedPage] = useState(1);
@@ -238,6 +243,10 @@ const StudPage = ({ setNotification }) => {
       />,
       { setNotification },
     );
+  };
+
+  const handleBackToTeacher = () => {
+    navigate("/teacher");
   };
 
   const handleMarkAsSolved = (taskId, solution) => {
@@ -305,21 +314,28 @@ const StudPage = ({ setNotification }) => {
     <div className={styles.studPageFullHeightWrapper}>
       <div className={styles.pageWrapper}>
         <section className={styles.profileSection}>
+          {userRole === "teacher" && (
+            <button className={styles.backButton} onClick={handleBackToTeacher}>
+              ← Back to my profile
+            </button>
+          )}
           <div className={styles.avatarPlaceholder}></div>
           <div className={styles.profileInfo}>
             <h1 className={styles.profileTitle}>Student name</h1>
             <a href="mailto:student@gmail.com" className={styles.profileEmail}>
               student@gmail.com
             </a>
-            <div className={styles.buttonGroup}>
-              <Button
-                variant="orange"
-                className={styles.profileButton}
-                onClick={handleContactTeacher}
-              >
-                Contact teacher
-              </Button>
-            </div>
+            {userRole === "student" && (
+              <div className={styles.buttonGroup}>
+                <Button
+                  variant="orange"
+                  className={styles.profileButton}
+                  onClick={handleContactTeacher}
+                >
+                  Contact teacher
+                </Button>
+              </div>
+            )}
           </div>
         </section>
       </div>
