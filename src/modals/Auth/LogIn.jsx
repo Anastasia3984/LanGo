@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import styles from "./LogIn.module.css";
 import InputField from "../../components/common/InputField";
 import Button from "../../components/common/Button";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-const LogIn = ({ onSwitchToSignUp, onAuthSuccess }) => {
+const LogIn = ({ onSwitchToSignUp }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -19,8 +25,20 @@ const LogIn = ({ onSwitchToSignUp, onAuthSuccess }) => {
     try {
       console.log("Відправка на сервер:", { email, password });
       await new Promise((resolve) => setTimeout(resolve, 500));
-      const userRoleFromServer = "teacher";
-      onAuthSuccess(userRoleFromServer);
+
+      const fakeUserData = {
+        id: 1,
+        name: "Test User",
+        email: email,
+        role: "teacher",
+      };
+
+      login(fakeUserData);
+      if (fakeUserData.role === "teacher") {
+        navigate("/teacher");
+      } else {
+        navigate("/student");
+      }
     } catch (err) {
       console.error("Login failed:", err);
       setError("Invalid email or password");

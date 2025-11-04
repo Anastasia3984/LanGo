@@ -3,6 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import RegPage from "./pages/RegPage/RegPage";
 import TeachPage from "./pages/TeachPage/TeachPage";
 import StudPage from "./pages/StudPage/StudPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
         element: <StudPage userRole="student" />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 

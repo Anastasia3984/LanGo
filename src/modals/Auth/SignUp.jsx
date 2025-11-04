@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import styles from "./SignUp.module.css";
 import InputField from "../../components/common/InputField";
 import Button from "../../components/common/Button";
-const SignUp = ({ onSwitchToLogIn, onAuthSuccess }) => {
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+const SignUp = ({ onSwitchToLogIn }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState(null);
   const [gender, setGender] = useState(null);
   const [error, setError] = useState("");
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -31,8 +38,20 @@ const SignUp = ({ onSwitchToLogIn, onAuthSuccess }) => {
       const registrationData = { name, email, password, role, gender };
       console.log("Відправка на сервер:", registrationData);
       await new Promise((resolve) => setTimeout(resolve, 500));
-      const registeredRole = role;
-      onAuthSuccess(registeredRole);
+
+      const fakeUserData = {
+        id: 2,
+        name: name,
+        email: email,
+        role: role,
+        gender: gender,
+      };
+      login(fakeUserData);
+      if (fakeUserData.role === "teacher") {
+        navigate("/teacher");
+      } else {
+        navigate("/student");
+      }
     } catch (err) {
       console.error("Registration failed:", err);
       setError("Failed to create account. Please try again.");
