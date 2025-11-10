@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styles from "./EditHW.module.css";
-
-export default function EditHW({ homework, closeModal, onSave, onDelete }) {
+export default function EditHW({
+  homework,
+  closeModal,
+  onSave,
+  onDelete,
+  setNotification,
+}) {
   const getFormattedDate = (dateString) => {
     if (!dateString) return "";
     try {
@@ -51,16 +56,36 @@ export default function EditHW({ homework, closeModal, onSave, onDelete }) {
     if (onSave) {
       onSave(updatedHomework);
     }
+    if (typeof setNotification === "function") {
+      setNotification("Homework has been saved!");
+    }
 
-    closeModal();
+    if (typeof closeModal === "function") {
+      closeModal();
+    }
+
+    setTimeout(() => {
+      if (typeof setNotification === "function") {
+        setNotification("");
+      }
+    }, 3000);
   };
 
   const handleDeleteClick = () => {
     if (onDelete) {
       onDelete(homework.id);
     }
-
-    closeModal();
+    if (typeof setNotification === "function") {
+      setNotification("Homework has been deleted!");
+    }
+    if (typeof closeModal === "function") {
+      closeModal();
+    }
+    setTimeout(() => {
+      if (typeof setNotification === "function") {
+        setNotification("");
+      }
+    }, 3000);
   };
 
   return (

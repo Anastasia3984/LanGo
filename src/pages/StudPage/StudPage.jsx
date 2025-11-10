@@ -375,11 +375,6 @@ const StudPage = ({ userRole = "student" }) => {
     <div className={styles.studPageFullHeightWrapper}>
       <div className={styles.pageWrapper}>
         <section className={styles.profileSection}>
-          {userRole === "teacher" && (
-            <button className={styles.backButton} onClick={handleBackToTeacher}>
-              ← Back to my profile
-            </button>
-          )}
           <div className={styles.avatarPlaceholder}></div>
           <div className={styles.profileInfo}>
             <h1 className={styles.profileTitle}>Student name</h1>

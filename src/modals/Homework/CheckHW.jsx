@@ -3,10 +3,11 @@ import styles from "./CheckHW.module.css";
 import Button from "../../components/common/Button";
 import TextArea from "../../components/common/TextArea";
 
-export default function CheckHomework({
+export default function CheckHW({
   homework,
   closeModal,
   onMarkAsChecked,
+  setNotification,
 }) {
   const [comment, setComment] = useState(homework.comment || "");
 
@@ -14,7 +15,19 @@ export default function CheckHomework({
     if (onMarkAsChecked) {
       onMarkAsChecked(homework.id, comment);
     }
-    closeModal();
+    if (typeof setNotification === "function") {
+      setNotification("Homework marked as checked!");
+    }
+
+    if (typeof closeModal === "function") {
+      closeModal();
+    }
+
+    setTimeout(() => {
+      if (typeof setNotification === "function") {
+        setNotification("");
+      }
+    }, 3000);
   };
 
   return (
