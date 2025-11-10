@@ -47,14 +47,14 @@ const NotFoundPage = () => {
             className={styles.homeButton}
             onClick={handleGoHome}
           >
-            Go to Home Page
+            Go to home page
           </Button>
           <Button
             variant="orange"
             className={styles.backButton}
             onClick={handleGoBack}
           >
-            Go Back
+            Go back
           </Button>
         </div>
 

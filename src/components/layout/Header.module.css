@@ -10,21 +10,37 @@
 }
 
 .notification {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
   color: white;
   font-size: 16px;
   font-weight: 500;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  animation:
-    slideInLeft 0.3s ease-out,
+  animation: slideInLeft 0.3s ease-out,
     fadeOut 2s ease-in 3s;
   z-index: 100;
   white-space: nowrap;
 }
-
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.backButton {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 2px solid #ff6b35;
+  border-radius: 25px;
+  color: #ff6b35;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Literata", serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.backButton:hover {
+  background-color: #ff6b35;
+  color: white;
+}
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%) translateY(-50%);

@@ -6,6 +6,8 @@ import { useModal } from "../../hooks/useModal";
 import ContactTeacher from "../../modals/Students/ContactTeacher";
 import ClickTitleStud from "../../modals/Homework/ClickTitleStud";
 import ViewSolvedHomework from "../../modals/Homework/ViewSolvedHomework";
+import EditHW from "../../modals/Homework/EditHW";
+import CheckHW from "../../modals/Homework/CheckHW";
 
 const TASKS_PER_PAGE = 4;
 
@@ -231,7 +233,9 @@ const StudPage = ({ userRole = "student" }) => {
     if (diffDays > 0) {
       return `${diffDays}d ${remainingHours}h`;
     } else {
-      return `${diffHours}h ${Math.floor((Math.abs(diffMs) % (1000 * 60 * 60)) / (1000 * 60))}m`;
+      return `${diffHours}h ${Math.floor(
+        (Math.abs(diffMs) % (1000 * 60 * 60)) / (1000 * 60),
+      )}m`;
     }
   };
 
@@ -283,19 +287,76 @@ const StudPage = ({ userRole = "student" }) => {
     console.log("Progress saved for task:", taskId);
   };
 
-  const handleUnsolvedTaskClick = (task) => {
-    openModal(
-      <ClickTitleStud
-        homework={task}
-        onMarkAsSolved={handleMarkAsSolved}
-        onSaveProgress={handleSaveProgress}
-      />,
-      { setNotification },
+  const handleUpdateTask = (updatedHomework) => {
+    setUnsolvedTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === updatedHomework.id ? updatedHomework : task,
+      ),
     );
+  };
+
+  const handleDeleteTask = (taskIdToDelete) => {
+    setUnsolvedTasks((prevTasks) =>
+      prevTasks.filter((task) => task.id !== taskIdToDelete),
+    );
+  };
+
+  const handleMarkAsChecked = (taskId, comment) => {
+    setSolvedTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId
+          ? { ...task, col3: "checked", comment: comment }
+          : task,
+      ),
+    );
+  };
+
+  const handleUnsolvedTaskClick = (task) => {
+    if (userRole === "student") {
+      openModal(
+        <ClickTitleStud
+          homework={task}
+          onMarkAsSolved={handleMarkAsSolved}
+          onSaveProgress={handleSaveProgress}
+        />,
+        { setNotification },
+      );
+    }
+  };
+
+  const handleEditTaskClick = (taskToEdit) => {
+    if (userRole === "student") {
+      openModal(
+        <ClickTitleStud
+          homework={taskToEdit}
+          onMarkAsSolved={handleMarkAsSolved}
+          onSaveProgress={handleSaveProgress}
+          isEditMode={true}
+        />,
+        { setNotification },
+      );
+    } else {
+      openModal(
+        <EditHW
+          homework={taskToEdit}
+          onSave={handleUpdateTask}
+          onDelete={handleDeleteTask}
+        />,
+        { setNotification },
+      );
+    }
   };
 
   const handleSolvedTaskClick = (task) => {
     openModal(<ViewSolvedHomework homework={task} />, { setNotification });
+  };
+  const handleCheckTaskClick = (task) => {
+    if (userRole === "teacher" && task.col3 === "unchecked") {
+      openModal(
+        <CheckHW homework={task} onMarkAsChecked={handleMarkAsChecked} />,
+        { setNotification },
+      );
+    }
   };
 
   const handleSolvedPageChange = (newPage) => {
@@ -351,7 +412,7 @@ const StudPage = ({ userRole = "student" }) => {
                   task={task}
                   type="solved"
                   onTitleClick={() => handleSolvedTaskClick(task)}
-                  onActionClick={() => console.log("Check solved", task.id)}
+                  onActionClick={() => handleCheckTaskClick(task)}
                 />
               ))}
             </div>
@@ -375,7 +436,7 @@ const StudPage = ({ userRole = "student" }) => {
                   task={task}
                   type="unsolved"
                   onTitleClick={() => handleUnsolvedTaskClick(task)}
-                  onActionClick={() => console.log("Edit unsolved", task.id)}
+                  onActionClick={() => handleEditTaskClick(task)}
                 />
               ))}
             </div>

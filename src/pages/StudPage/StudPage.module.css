@@ -1,7 +1,7 @@
 .studPageFullHeightWrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100vh;
 }
 
 .pageWrapper {
@@ -16,6 +16,7 @@
   align-items: flex-start;
   gap: 110px;
   margin-bottom: 50px;
+  position: relative;
 }
 
 .avatarPlaceholder {
@@ -34,7 +35,7 @@
 }
 
 .profileTitle {
-  font-family: "Literata", bold;
+  font-family: "Literata", serif;
   font-size: 60px;
   font-weight: 600;
   color: #ffffff;
@@ -190,6 +191,7 @@
 .unchecked {
   color: #17204f;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .statusText {
@@ -232,10 +234,8 @@
   background-color: #a0a0a0;
   cursor: not-allowed;
 }
+
 .backButton {
-  position: absolute;
-  top: 20px;
-  left: 20px;
   padding: 10px 20px;
   background-color: transparent;
   border: 2px solid #ff6b35;
