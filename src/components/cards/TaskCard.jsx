@@ -2,18 +2,32 @@ import React from "react";
 import styles from "./TaskCard.module.css";
 
 const TaskCard = ({ task, type, onTitleClick, onActionClick }) => {
-  const col2Style = task.isOverdue ? styles.overdue : styles.onTime;
-  const col3Style = type === "unsolved" ? styles.actionLink : styles.statusText;
+  let col2Style = "";
+  if (type === "solved") {
+    col2Style = task.isOverdue ? styles.overdue : styles.onTime;
+  }
+
+  let col3Style = "";
+  if (type === "solved") {
+    col3Style = task.col3 === "unchecked" ? styles.unchecked : styles.onTime;
+  } else {
+    col3Style = styles.actionLink;
+  }
 
   return (
     <div className={styles.taskCard}>
       <span className={styles.title} onClick={onTitleClick}>
-        {task.col1}
+        {task.assignment ? task.assignment.title : "Unnamed Task"}
       </span>
 
-      <span className={`${styles.col2} ${col2Style}`}>{task.col2}</span>
+      <span className={`${col2Style} ${styles.cardColumnWithBorder}`}>
+        {task.col2}
+      </span>
 
-      <span className={`${styles.col3} ${col3Style}`} onClick={onActionClick}>
+      <span
+        className={`${col3Style} ${styles.cardColumnWithBorder}`}
+        onClick={onActionClick}
+      >
         {task.col3}
       </span>
     </div>

@@ -1,0 +1,89 @@
+{
+  "users": [
+    {
+      "id": "t1",
+      "email": "teacher@gmail.com",
+      "password": "password123",
+      "role": "teacher",
+      "name": "Teacher Name"
+    },
+    {
+      "id": "s1",
+      "email": "student@gmail.com",
+      "password": "password123",
+      "role": "student",
+      "name": "Andriy",
+      "teacherId": "t1"
+    },
+    {
+      "id": "t2",
+      "name": "Teacher 2",
+      "email": "userrr@gmail.com",
+      "password": "jdshdlshd3e",
+      "role": "teacher",
+      "gender": "female"
+    },
+    {
+      "id": "s2",
+      "name": "Olena",
+      "email": "student@user.com",
+      "password": "fdnfke42ewd",
+      "role": "student",
+      "gender": "female",
+      "teacherId": "t1"
+    },
+    {
+      "id": "u_1762882119130",
+      "name": "inviteNew",
+      "email": "newwww@sd.com",
+      "password": "dddddddddee3",
+      "role": "student",
+      "gender": "female",
+      "createdAt": "2025-11-11T17:28:39.130Z"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "assign_1762892849265",
+      "title": "new1",
+      "description": "sth1",
+      "created_at": "2025-11-11T20:27:29.265Z"
+    }
+  ],
+  "submissions": [
+    {
+      "id": "sub_1762892849294",
+      "assignment_id": "assign_1762892849265",
+      "student_id": "s1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "col2": "Due soon",
+      "col3": "edit",
+      "dueDate": "2026-11-11T11:11:00",
+      "submittedDate": null,
+      "isOverdue": false
+    }
+  ],
+  "invitations": [
+    {
+      "id": "inv1",
+      "email": "newstudent@example.com",
+      "teacher_id": "t1",
+      "status": "pending",
+      "created_at": "2024-11-09T10:00:00Z",
+      "accepted_at": null,
+      "token": "invite_token_123"
+    },
+    {
+      "id": "inv_1762881858022",
+      "email": "newwww@sd.com",
+      "teacher_id": "t1",
+      "status": "pending",
+      "created_at": "2025-11-11T17:24:18.022Z",
+      "accepted_at": null,
+      "token": "token_023a433lx"
+    }
+  ]
+}

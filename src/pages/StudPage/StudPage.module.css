@@ -252,3 +252,19 @@
   background-color: #ff6b35;
   color: white;
 }
+
+.noTasksMessage {
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  font-style: normal;
+  width: calc(100% - 40px); 
+  margin: 20px;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  background-color: #f0fef0;
+  border: 1px solid #b8e0b8;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}

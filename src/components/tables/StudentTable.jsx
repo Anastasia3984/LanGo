@@ -25,15 +25,15 @@ const StudentTable = ({
               <td>{student.activity}</td>
               <td
                 className={styles.solvedCell}
-                onClick={() => onSolvedClick(student.id, student.solved)}
+                onClick={() => onSolvedClick(student.id)}
               >
-                {student.solved}
+                0
               </td>
               <td
                 className={styles.addHomeworkCell}
                 onClick={() => onAddHomeworkClick(student.id)}
               >
-                {student.addHomeworkText}
+                Add homework
               </td>
             </tr>
           ))}

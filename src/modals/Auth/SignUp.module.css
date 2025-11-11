@@ -71,8 +71,8 @@
 
 .roleButtons {
   display: flex;
-  gap: 10px;
-  margin-top: 28px;
+  gap: 5px;
+  margin-top: 20px;
 }
 
 .roleButton {
@@ -113,8 +113,8 @@
 }
 
 .whiteBox .submitButton {
-  width: 226px;
-  height: 80px;
+  width: 210px;
+  height: 55px;
   margin-top: 25px;
   border-radius: var(--border-radius-medium);
 }
@@ -150,7 +150,7 @@
 }
 .genderButtons {
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 .genderButton {
@@ -184,4 +184,13 @@
   opacity: 1;
   transform: scale(1.03);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.errorText {
+    color: #f81511;;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 0px;
+    text-align: left;
+    margin-left: 20px;
+    width: 100%;
 }

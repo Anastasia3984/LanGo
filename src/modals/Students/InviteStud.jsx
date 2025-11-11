@@ -4,41 +4,42 @@ import InputField from "../../components/common/InputField";
 import TextArea from "../../components/common/TextArea";
 import Button from "../../components/common/Button";
 
-const InviteStud = ({ closeModal, setNotification }) => {
+const InviteStud = ({ onInvite, closeModal, setNotification }) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(
     "Hello! I'd like to invite you to join our learning platform.",
   );
-
-  console.log("🔍 InviteStud props:", { closeModal, setNotification });
-
-  const handleSubmit = (e) => {
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("✅ Form submitted!");
-    console.log("📧 Email:", email);
-    if (email.trim()) {
-      console.log("🎉 Email is valid, proceeding...");
+    setError("");
+
+    if (!email.trim()) {
+      setError("Email is required.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await onInvite(email);
       if (typeof setNotification === "function") {
-        console.log("✅ setNotification is a function, calling it...");
-        setNotification("Invitation was sent to student's email!");
-      } else {
-        console.error("❌ setNotification is NOT a function:", setNotification);
+        setNotification("Invitation was sent successfully!");
       }
 
       if (typeof closeModal === "function") {
-        console.log("✅ closeModal is a function, calling it...");
         closeModal();
-      } else {
-        console.error("❌ closeModal is NOT a function:", closeModal);
       }
-
       setTimeout(() => {
         if (typeof setNotification === "function") {
           setNotification("");
         }
       }, 5000);
-    } else {
-      console.log("❌ Email is empty!");
+    } catch (err) {
+      setError(err.message || "Failed to send invitation. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,6 +54,7 @@ const InviteStud = ({ closeModal, setNotification }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className={styles.inputField}
+          disabled={isLoading}
         />
 
         <TextArea
@@ -61,10 +63,17 @@ const InviteStud = ({ closeModal, setNotification }) => {
           onChange={(e) => setMessage(e.target.value)}
           className={styles.textArea}
           rows={3}
+          disabled={isLoading}
         />
+        {error && <p className={styles.errorText}>{error}</p>}
 
-        <Button type="submit" variant="orange" className={styles.submitButton}>
-          Invite
+        <Button
+          type="submit"
+          variant="orange"
+          className={styles.submitButton}
+          disabled={isLoading}
+        >
+          {isLoading ? "Sending..." : "Invite"}
         </Button>
       </form>
     </div>

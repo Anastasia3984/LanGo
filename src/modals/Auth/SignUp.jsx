@@ -3,54 +3,42 @@ import styles from "./SignUp.module.css";
 import InputField from "../../components/common/InputField";
 import Button from "../../components/common/Button";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-
-const SignUp = ({ onSwitchToLogIn }) => {
+const SignUp = ({ onSwitchToLogIn, onAuthSuccess }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState(null);
   const [gender, setGender] = useState(null);
   const [error, setError] = useState("");
-
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     if (!name || !email || !password || !role) {
-      setError(
-        "Please fill in all required fields (Name, Email, Password, Role)",
-      );
+      setError("*Please fill in all required fields");
       return;
     }
     if (password.length < 8) {
-      setError("Password must contain at least 8 characters");
-      return;
-    }
-    if (!role) {
-      setError("Please select a role (student or teacher)");
+      setError("*Password must contain at least 8 characters");
       return;
     }
 
     try {
-      const registrationData = { name, email, password, role, gender };
-      console.log("Відправка на сервер:", registrationData);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const fakeUserData = {
-        id: 2,
-        name: name,
-        email: email,
-        role: role,
-        gender: gender,
+      const registrationData = {
+        name,
+        email,
+        password,
+        role,
+        gender: gender || null,
       };
-      login(fakeUserData);
-      if (fakeUserData.role === "teacher") {
-        navigate("/teacher");
+      const result = await signup(registrationData);
+
+      if (result.success) {
+        onAuthSuccess(result.user.role);
       } else {
-        navigate("/student");
+        setError(result.error);
       }
     } catch (err) {
       console.error("Registration failed:", err);
@@ -76,7 +64,6 @@ const SignUp = ({ onSwitchToLogIn }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
         <div className={`${styles.passwordGroup} ${styles.subsequentInput}`}>
           <InputField
             type="password"
@@ -84,9 +71,6 @@ const SignUp = ({ onSwitchToLogIn }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <p className={styles.passwordHint}>
-            *password must contain at least 8 characters
-          </p>
         </div>
         <div className={`${styles.genderButtons} ${styles.subsequentInput}`}>
           <button
@@ -108,7 +92,6 @@ const SignUp = ({ onSwitchToLogIn }) => {
             Female
           </button>
         </div>
-
         <div className={styles.roleButtons}>
           <Button
             type="button"
@@ -130,7 +113,6 @@ const SignUp = ({ onSwitchToLogIn }) => {
           </Button>
         </div>
         {error && <p className={styles.errorText}>{error}</p>}
-
         <Button type="submit" variant="orange" className={styles.submitButton}>
           Sign up
         </Button>

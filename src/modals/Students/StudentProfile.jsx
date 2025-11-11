@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./StudentProfile.module.css";
 import Button from "../../components/common/Button";
 import DeleteStudentConfirm from "./DeleteStudentConfirm";
+import { useTasks } from "../../hooks/useTasks";
 
 const StudentProfile = ({
   closeModal,
@@ -11,8 +12,15 @@ const StudentProfile = ({
   onDeleteStudent,
   navigate,
 }) => {
+  const { tasks, loading, error } = useTasks(student.id);
+
+  const uncheckedTasks = tasks
+    ? tasks.filter(
+        (t) => t.status === "unreviewed" || (t.status === "solved" && !t.grade),
+      )
+    : [];
+
   const handleVisitProfile = () => {
-    console.log("Visiting profile of:", student.name);
     if (closeModal) {
       closeModal();
     }
@@ -20,7 +28,6 @@ const StudentProfile = ({
   };
 
   const handleDeleteStudent = () => {
-    console.log("Opening delete confirmation modal for:", student.name);
     const handleCancelDelete = () => {
       openModal(
         <StudentProfile
@@ -44,19 +51,29 @@ const StudentProfile = ({
     );
   };
 
-  const handleTaskClick = (task, index) => {
-    console.log("Opening task details for:", task);
+  const handleTaskClick = (task) => {
+    console.log("Opening task details for:", task.assignment.title);
   };
-
-  const uncheckedTasks = [
-    "Complete chapter 3 exercises",
-    "Write an essay about climate change",
-    "Prepare presentation on European history",
-    "Read pages 45-60 and answer questions",
-    "Solve algebraic equations worksheet",
-    "Watch documentary and write summary",
-    "Practice pronunciation exercises",
-  ];
+  const renderTaskList = () => {
+    if (loading) {
+      return <p className={styles.noTasks}>Loading tasks...</p>;
+    }
+    if (error) {
+      return <p className={styles.noTasks}>Failed to load tasks.</p>;
+    }
+    if (uncheckedTasks.length === 0) {
+      return <p className={styles.noTasks}>No unchecked tasks</p>;
+    }
+    return uncheckedTasks.map((task) => (
+      <div
+        key={task.id}
+        className={styles.taskItem}
+        onClick={() => handleTaskClick(task)}
+      >
+        {task.assignment ? task.assignment.title : "Unnamed Task"}
+      </div>
+    ));
+  };
 
   return (
     <div className={styles.profileModal}>
@@ -70,22 +87,7 @@ const StudentProfile = ({
 
       <div className={styles.content}>
         <h3 className={styles.sectionTitle}>Unchecked tasks</h3>
-
-        <div className={styles.tasksList}>
-          {uncheckedTasks.length > 0 ? (
-            uncheckedTasks.map((task, index) => (
-              <div
-                key={index}
-                className={styles.taskItem}
-                onClick={() => handleTaskClick(task, index)}
-              >
-                {task}
-              </div>
-            ))
-          ) : (
-            <p className={styles.noTasks}>No unchecked tasks</p>
-          )}
-        </div>
+        <div className={styles.tasksList}>{renderTaskList()}</div>
 
         <div className={styles.buttonGroup}>
           <Button

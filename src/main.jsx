@@ -9,10 +9,10 @@ import "./styles/variables.css";
 
 ReactDOM.createRoot(document.getElementById("app")).render(
   <React.StrictMode>
-    <ModalProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ModalProvider>
         <RouterProvider router={router} />
-      </AuthProvider>
-    </ModalProvider>
+      </ModalProvider>
+    </AuthProvider>
   </React.StrictMode>,
 );

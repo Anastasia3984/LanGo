@@ -3,197 +3,187 @@ import styles from "./AddHomework.module.css";
 import InputField from "../../components/common/InputField";
 import LinkableTextArea from "../../components/common/LinkableTextArea";
 import Button from "../../components/common/Button";
+import { usePost } from "../../hooks/usePost";
 
-const AddHomework = ({
-  closeModal,
-  setNotification,
-  studentName = "",
-  allStudents = [],
-}) => {
+const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [student, setStudent] = useState(studentName);
+  const [studentId, setStudentId] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [dueTime, setDueTime] = useState("");
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const { post: createAssignment } = usePost("/assignments");
+  const { post: createSubmission } = usePost("/submissions");
 
   const validateForm = () => {
     const newErrors = {};
-
-    if (student.trim()) {
-      const studentExists = allStudents.some(
-        (s) => s.name.toLowerCase() === student.trim().toLowerCase(),
-      );
-      if (!studentExists) {
-        newErrors.student = "Student not found!";
-      }
-    }
-
-    if (!dueDate) {
-      newErrors.dueDate = "Please select due date";
-    }
-
-    if (!dueTime) {
-      newErrors.dueTime = "Please select due time";
-    }
-
+    if (!title.trim()) newErrors.title = "*add title";
+    if (!description.trim()) newErrors.description = "*add description";
+    if (!dueDate) newErrors.dueDate = "*select due date";
+    if (!dueTime) newErrors.dueTime = "*select due time";
     if (dueDate && dueTime) {
       const selectedDateTime = new Date(`${dueDate}T${dueTime}`);
-      const now = new Date();
-
-      if (selectedDateTime <= now) {
-        newErrors.dueDate = "Due date must be in the future";
+      if (selectedDateTime <= new Date()) {
+        newErrors.dueDate = "date has to be in future";
       }
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    setIsLoading(true);
 
-    if (title.trim() && student.trim()) {
-      if (validateForm()) {
-        const dueDateTimeString = `${dueDate}T${dueTime}`;
-        const dueDateTimeObject = new Date(dueDateTimeString);
+    try {
+      const dueDateTimeString = `${dueDate}T${dueTime}:00`;
+      const newAssignment = await createAssignment({
+        id: `assign_${Date.now()}`,
+        title,
+        description,
+        created_at: new Date().toISOString(),
+      });
 
-        console.log("Adding homework:", {
-          title,
-          description,
-          student,
-          dueDate: dueDateTimeObject,
-        });
-
-        if (typeof setNotification === "function") {
-          setNotification("Homework has been added!");
-        }
-
-        if (typeof closeModal === "function") {
-          closeModal();
-        }
-
-        setTimeout(() => {
-          if (typeof setNotification === "function") {
-            setNotification("");
-          }
-        }, 5000);
+      if (!newAssignment || !newAssignment.id) {
+        throw new Error("Failed to create assignment template.");
       }
+
+      await createSubmission({
+        id: `sub_${Date.now()}`,
+        assignment_id: newAssignment.id,
+        student_id: studentId,
+        status: "unsolved",
+        solution: "",
+        comment: "",
+        grade: null,
+        col2: "Due soon",
+        col3: "edit",
+        dueDate: dueDateTimeString,
+        submittedDate: null,
+        isOverdue: false,
+      });
+
+      if (typeof setNotification === "function") {
+        setNotification("Homework has been assigned!");
+      }
+      if (typeof closeModal === "function") {
+        closeModal();
+      }
+
+      setTimeout(() => {
+        if (typeof setNotification === "function") {
+          setNotification("");
+        }
+      }, 5000);
+    } catch (err) {
+      console.error("Failed to add homework:", err);
+      setErrors({ submit: "Failed to add homework. Please try again." });
+    } finally {
+      setIsLoading(false);
     }
   };
-
   return (
     <div className={styles.homeworkModal}>
       <h2 className={styles.title}>Homework</h2>
-
       <form onSubmit={handleSubmit} className={styles.form}>
-        <InputField
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={styles.inputField}
-          required
-        />
-
-        <LinkableTextArea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description (select text and click 🔗 to add link)"
-        />
-
         <div>
           <InputField
             type="text"
-            placeholder="Student name"
-            value={student}
-            onChange={(e) => {
-              setStudent(e.target.value);
-              if (errors.student) {
-                setErrors({ ...errors, student: "" });
-              }
-            }}
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             className={styles.inputField}
             required
+            disabled={isLoading}
           />
-          {errors.student && (
-            <p
-              style={{
-                color: "#d00000",
-                fontSize: "13px",
-                marginTop: "5px",
-                paddingLeft: "24px",
-                fontFamily: "Literata, serif",
-                fontWeight: "500",
-              }}
-            >
-              {errors.student}
-            </p>
+          {errors.title && <p className={styles.errorText}>{errors.title}</p>}
+        </div>
+
+        <div>
+          <LinkableTextArea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description (select text and click 🔗 to add link)"
+            disabled={isLoading}
+          />
+          {errors.description && (
+            <p className={styles.errorText}>{errors.description}</p>
           )}
         </div>
 
         <div>
-          <InputField
-            type="date"
-            placeholder="Due date"
-            value={dueDate}
+          <select
+            id="student-select"
+            value={studentId}
             onChange={(e) => {
-              setDueDate(e.target.value);
-              if (errors.dueDate) {
-                setErrors({ ...errors, dueDate: "" });
+              setStudentId(e.target.value);
+              if (errors.studentId) {
+                setErrors({ ...errors, studentId: "" });
               }
             }}
-            className={styles.inputField}
+            className={styles.selectField}
             required
-          />
-          {errors.dueDate && (
-            <p
-              style={{
-                color: "#d00000",
-                fontSize: "13px",
-                marginTop: "5px",
-                paddingLeft: "24px",
-                fontFamily: "Literata, serif",
-                fontWeight: "500",
-              }}
-            >
-              {errors.dueDate}
-            </p>
+            disabled={isLoading}
+          >
+            <option value="">-- Choose a student --</option>
+            {allStudents &&
+              allStudents.map((student) => (
+                <option key={student.id} value={student.id}>
+                  {student.name} ({student.email})
+                </option>
+              ))}
+          </select>
+          {errors.studentId && (
+            <p className={styles.errorText}>{errors.studentId}</p>
           )}
         </div>
-
-        <div>
-          <InputField
-            type="time"
-            placeholder="Due time"
-            value={dueTime}
-            onChange={(e) => {
-              setDueTime(e.target.value);
-              if (errors.dueTime) {
-                setErrors({ ...errors, dueTime: "" });
-              }
-            }}
-            className={styles.inputField}
-            required
-          />
-          {errors.dueTime && (
-            <p
-              style={{
-                color: "#d00000",
-                fontSize: "13px",
-                marginTop: "5px",
-                paddingLeft: "24px",
-                fontFamily: "Literata, serif",
-                fontWeight: "500",
+        <div className={styles.dateAndTimeGroup}>
+          <div>
+            <InputField
+              type="date"
+              value={dueDate}
+              onChange={(e) => {
+                setDueDate(e.target.value);
+                if (errors.dueDate) setErrors({ ...errors, dueDate: "" });
               }}
-            >
-              {errors.dueTime}
-            </p>
-          )}
+              className={styles.inputField}
+              required
+              disabled={isLoading}
+            />
+            {errors.dueDate && (
+              <p className={styles.errorText}>{errors.dueDate}</p>
+            )}
+          </div>
+          <div>
+            <InputField
+              type="time"
+              value={dueTime}
+              onChange={(e) => {
+                setDueTime(e.target.value);
+                if (errors.dueTime) setErrors({ ...errors, dueTime: "" });
+              }}
+              className={styles.inputField}
+              required
+              disabled={isLoading}
+            />
+            {errors.dueTime && (
+              <p className={styles.errorText}>{errors.dueTime}</p>
+            )}
+          </div>
         </div>
+        {errors.submit && <p className={styles.errorText}>{errors.submit}</p>}
 
-        <Button type="submit" variant="orange" className={styles.submitButton}>
-          Assign
+        <Button
+          type="submit"
+          variant="orange"
+          className={styles.submitButton}
+          disabled={isLoading}
+        >
+          {isLoading ? "Assigning..." : "Assign"}
         </Button>
       </form>
     </div>
