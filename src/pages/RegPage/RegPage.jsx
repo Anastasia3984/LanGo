@@ -3,9 +3,21 @@ import styles from "./RegPage.module.css";
 import AuthLayout from "../../layouts/AuthLayout";
 import LogIn from "../../modals/Auth/LogIn";
 import SignUp from "../../modals/Auth/SignUp";
+import { useNavigate } from "react-router-dom";
 
 const RegPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate();
+  const handleAuthSuccess = (role) => {
+    if (role === "teacher") {
+      navigate("/teacher");
+    } else if (role === "student") {
+      navigate("/student");
+    } else {
+      console.error("Unknown user role:", role);
+      navigate("/");
+    }
+  };
 
   return (
     <div className={styles.regPageWrapper}>
@@ -31,9 +43,17 @@ const RegPage = () => {
         <div className={styles.rightColumn}>
           <AuthLayout>
             {isSignUp ? (
-              <SignUp key="signup" onSwitchToLogIn={() => setIsSignUp(false)} />
+              <SignUp
+                key="signup"
+                onSwitchToLogIn={() => setIsSignUp(false)}
+                onAuthSuccess={handleAuthSuccess}
+              />
             ) : (
-              <LogIn key="login" onSwitchToSignUp={() => setIsSignUp(true)} />
+              <LogIn
+                key="login"
+                onSwitchToSignUp={() => setIsSignUp(true)}
+                onAuthSuccess={handleAuthSuccess}
+              />
             )}
           </AuthLayout>
         </div>

@@ -1,7 +1,7 @@
 .button {
   font-family: var(--font-family-main);
   font-size: 25px;
-  font-weight: 500;
+  font-weight: 700;
   text-transform: none;
   letter-spacing: normal;
   color: var(--color-white);
@@ -20,7 +20,16 @@
 }
 
 .green {
-  background-color: var(--color-green-button);
+  background-color: #4caf50;
+  color: white;
+}
+
+.green:hover {
+  background-color: #45a049;
+}
+
+.green:active {
+  background-color: #3d8b40;
 }
 
 .button:not(:disabled):hover {
