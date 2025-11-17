@@ -186,11 +186,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 .errorText {
-    color: #f81511;;
-    font-size: 13px;
-    font-weight: 500;
-    margin-top: 0px;
-    text-align: left;
-    margin-left: 20px;
-    width: 100%;
+  color: #f81511;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 0px;
+  text-align: left;
+  margin-left: 20px;
+  width: 100%;
 }

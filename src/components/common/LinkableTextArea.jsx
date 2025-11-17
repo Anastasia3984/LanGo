@@ -21,16 +21,22 @@ const LinkableTextArea = ({ value, onChange, placeholder }) => {
       setSelectionEnd(end);
       setShowLinkDialog(true);
     } else {
-      alert("Please select text first to add a link!");
+      console.warn("Please select text first to add a link!");
     }
   };
 
   const handleConfirmLink = () => {
-    if (linkUrl.trim()) {
+    let finalUrl = linkUrl.trim();
+    if (finalUrl) {
+      if (!finalUrl.startsWith("http://") && !finalUrl.startsWith("https://")) {
+        finalUrl = "https://" + finalUrl;
+      }
+
       const before = value.substring(0, selectionStart);
       const after = value.substring(selectionEnd);
-      const newValue = `${before}[${linkText}](${linkUrl})${after}`;
+      const newValue = `${before}[${linkText}](${finalUrl})${after}`;
       onChange({ target: { value: newValue } });
+
       setShowLinkDialog(false);
       setLinkUrl("");
       setLinkText("");

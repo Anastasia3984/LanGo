@@ -13,6 +13,7 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
   const [dueTime, setDueTime] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
   const { post: createAssignment } = usePost("/assignments");
   const { post: createSubmission } = usePost("/submissions");
 
@@ -34,13 +35,12 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
+
     setIsLoading(true);
 
     try {
-      const dueDateTimeString = `${dueDate}T${dueTime}:00`;
+      const dueDateTimeString = new Date(`${dueDate}T${dueTime}`).toISOString();
       const newAssignment = await createAssignment({
         id: `assign_${Date.now()}`,
         title,
@@ -51,33 +51,23 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
       if (!newAssignment || !newAssignment.id) {
         throw new Error("Failed to create assignment template.");
       }
-
       await createSubmission({
         id: `sub_${Date.now()}`,
-        assignment_id: newAssignment.id,
+        assignmentId: newAssignment.id,
         student_id: studentId,
         status: "unsolved",
         solution: "",
         comment: "",
         grade: null,
-        col2: "Due soon",
-        col3: "edit",
         dueDate: dueDateTimeString,
         submittedDate: null,
-        isOverdue: false,
       });
 
-      if (typeof setNotification === "function") {
-        setNotification("Homework has been assigned!");
-      }
-      if (typeof closeModal === "function") {
-        closeModal();
-      }
+      if (setNotification) setNotification("Homework has been assigned!");
+      if (closeModal) closeModal();
 
       setTimeout(() => {
-        if (typeof setNotification === "function") {
-          setNotification("");
-        }
+        if (setNotification) setNotification("");
       }, 5000);
     } catch (err) {
       console.error("Failed to add homework:", err);
@@ -86,6 +76,7 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
       setIsLoading(false);
     }
   };
+
   return (
     <div className={styles.homeworkModal}>
       <h2 className={styles.title}>Homework</h2>
@@ -121,9 +112,7 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
             value={studentId}
             onChange={(e) => {
               setStudentId(e.target.value);
-              if (errors.studentId) {
-                setErrors({ ...errors, studentId: "" });
-              }
+              if (errors.studentId) setErrors({ ...errors, studentId: "" });
             }}
             className={styles.selectField}
             required
@@ -141,6 +130,7 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
             <p className={styles.errorText}>{errors.studentId}</p>
           )}
         </div>
+
         <div className={styles.dateAndTimeGroup}>
           <div>
             <InputField
@@ -175,6 +165,7 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
             )}
           </div>
         </div>
+
         {errors.submit && <p className={styles.errorText}>{errors.submit}</p>}
 
         <Button

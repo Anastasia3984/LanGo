@@ -189,3 +189,15 @@
     padding: 12px;
   }
 }
+.descriptionLink {
+  color: #4f89da;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.descriptionLink:hover {
+  color: #e67e22;
+  text-decoration: none;
+}

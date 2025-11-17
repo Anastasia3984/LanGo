@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./SignUp.module.css";
 import InputField from "../../components/common/InputField";
 import Button from "../../components/common/Button";
 import { useAuth } from "../../context/AuthContext";
-const SignUp = ({ onSwitchToLogIn, onAuthSuccess }) => {
+
+const SignUp = ({
+  onSwitchToLogIn,
+  onAuthSuccess,
+  initialEmail = "",
+  linkedTeacherId = null,
+}) => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState(null);
+  const [role, setRole] = useState(linkedTeacherId ? "student" : null);
   const [gender, setGender] = useState(null);
   const [error, setError] = useState("");
   const { signup } = useAuth();
+  useEffect(() => {
+    if (initialEmail) setEmail(initialEmail);
+    if (linkedTeacherId) setRole("student");
+  }, [initialEmail, linkedTeacherId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +42,9 @@ const SignUp = ({ onSwitchToLogIn, onAuthSuccess }) => {
         password,
         role,
         gender: gender || null,
+        ...(linkedTeacherId && { teacherId: linkedTeacherId }),
       };
+
       const result = await signup(registrationData);
 
       if (result.success) {
@@ -49,6 +61,11 @@ const SignUp = ({ onSwitchToLogIn, onAuthSuccess }) => {
   return (
     <div className={styles.signupWrapper}>
       <h2 className={styles.title}>Sign up</h2>
+      {linkedTeacherId && (
+        <p style={{ color: "green", fontSize: "0.9rem", marginBottom: "10px" }}>
+          You are registering via invite!
+        </p>
+      )}
       <form className={styles.whiteBox} onSubmit={handleSubmit}>
         <InputField
           type="text"
@@ -92,26 +109,29 @@ const SignUp = ({ onSwitchToLogIn, onAuthSuccess }) => {
             Female
           </button>
         </div>
-        <div className={styles.roleButtons}>
-          <Button
-            type="button"
-            className={`${styles.roleButton} ${styles.studentButton} ${
-              role === "student" ? styles.active : ""
-            }`}
-            onClick={() => setRole("student")}
-          >
-            student
-          </Button>
-          <Button
-            type="button"
-            className={`${styles.roleButton} ${styles.teacherButton} ${
-              role === "teacher" ? styles.active : ""
-            }`}
-            onClick={() => setRole("teacher")}
-          >
-            teacher
-          </Button>
-        </div>
+        {!linkedTeacherId && (
+          <div className={styles.roleButtons}>
+            <Button
+              type="button"
+              className={`${styles.roleButton} ${styles.studentButton} ${
+                role === "student" ? styles.active : ""
+              }`}
+              onClick={() => setRole("student")}
+            >
+              student
+            </Button>
+            <Button
+              type="button"
+              className={`${styles.roleButton} ${styles.teacherButton} ${
+                role === "teacher" ? styles.active : ""
+              }`}
+              onClick={() => setRole("teacher")}
+            >
+              teacher
+            </Button>
+          </div>
+        )}
+
         {error && <p className={styles.errorText}>{error}</p>}
         <Button type="submit" variant="orange" className={styles.submitButton}>
           Sign up

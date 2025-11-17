@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { apiPatch, apiDelete } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useFetch } from "./useFetch";
+
 export const useTasks = (studentId) => {
   const { user } = useAuth();
   const idToFetch = studentId || (user ? user.id : null);
   const endpoint = idToFetch
     ? `/submissions?student_id=${idToFetch}&_expand=assignment`
     : null;
+
   const { data: fetchedTasks, loading, error } = useFetch(endpoint);
   const [tasks, setTasks] = useState(null);
 
@@ -16,17 +18,30 @@ export const useTasks = (studentId) => {
       setTasks(fetchedTasks);
     }
   }, [fetchedTasks]);
-  const updateTask = async (taskId, updatedData) => {
+  const updateTask = async (
+    taskId,
+    updatedData,
+    updatedAssignmentData = null,
+  ) => {
     try {
       const updatedSubmission = await apiPatch(
         `/submissions/${taskId}`,
         updatedData,
       );
-
       setTasks((prevTasks) =>
-        prevTasks.map((task) =>
-          task.id === taskId ? updatedSubmission : task,
-        ),
+        prevTasks.map((task) => {
+          if (task.id === taskId) {
+            return {
+              ...task,
+              ...updatedSubmission,
+              assignment: {
+                ...task.assignment,
+                ...(updatedAssignmentData || {}),
+              },
+            };
+          }
+          return task;
+        }),
       );
       return updatedSubmission;
     } catch (err) {

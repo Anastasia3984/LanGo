@@ -13,11 +13,13 @@ const TaskCard = ({ task, type, onTitleClick, onActionClick }) => {
   } else {
     col3Style = styles.actionLink;
   }
+  const displayTitle =
+    task.title || (task.assignment && task.assignment.title) || "Unnamed Task";
 
   return (
     <div className={styles.taskCard}>
       <span className={styles.title} onClick={onTitleClick}>
-        {task.assignment ? task.assignment.title : "Unnamed Task"}
+        {displayTitle}
       </span>
 
       <span className={`${col2Style} ${styles.cardColumnWithBorder}`}>

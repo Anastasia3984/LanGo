@@ -11,6 +11,7 @@ import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useStudents } from "../../hooks/useStudents";
 import { useAuth } from "../../context/AuthContext";
+import { usePost } from "../../hooks/usePost";
 
 const STUDENTS_PER_PAGE = 5;
 
@@ -19,6 +20,8 @@ const TeachPage = () => {
   const { setNotification } = useOutletContext();
   const { openModal, closeModal } = useModal();
   const { user } = useAuth();
+  const { post: createInvitation } = usePost("/invitations");
+
   const {
     students: allStudents,
     loading,
@@ -28,6 +31,24 @@ const TeachPage = () => {
   } = useStudents();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const handleSendInvitation = async (email) => {
+    const randomString = Math.random().toString(36).substring(2, 15);
+    const token = `token_${Date.now()}_${randomString}`;
+    const newInvitation = {
+      id: `inv_${Date.now()}`,
+      email: email,
+      teacher_id: user.id,
+      status: "pending",
+      created_at: new Date().toISOString(),
+      accepted_at: null,
+      token: token,
+    };
+    await createInvitation(newInvitation);
+    console.log(
+      "Invitation Link Created:",
+      `http://localhost:5173/register?token=${token}`,
+    );
+  };
 
   const handleDeleteStudent = async (studentId, studentName) => {
     try {
@@ -110,10 +131,13 @@ const TeachPage = () => {
       setCurrentPage(newPage);
     }
   };
-
   const handleInviteStudent = () => {
     openModal(
-      <InviteStud closeModal={closeModal} setNotification={setNotification} />,
+      <InviteStud
+        closeModal={closeModal}
+        setNotification={setNotification}
+        onInvite={handleSendInvitation}
+      />,
       { setNotification },
     );
   };
