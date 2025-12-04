@@ -4,8 +4,11 @@ import InputField from "../../components/common/InputField";
 import LinkableTextArea from "../../components/common/LinkableTextArea";
 import Button from "../../components/common/Button";
 import { usePost } from "../../hooks/usePost";
+import { useAuth } from "../../context/AuthContext";
 
 const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
+  const { user } = useAuth();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [studentId, setStudentId] = useState("");
@@ -15,14 +18,15 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { post: createAssignment } = usePost("/assignments");
-  const { post: createSubmission } = usePost("/submissions");
 
   const validateForm = () => {
     const newErrors = {};
     if (!title.trim()) newErrors.title = "*add title";
     if (!description.trim()) newErrors.description = "*add description";
+    if (!studentId) newErrors.studentId = "*select a student";
     if (!dueDate) newErrors.dueDate = "*select due date";
     if (!dueTime) newErrors.dueTime = "*select due time";
+
     if (dueDate && dueTime) {
       const selectedDateTime = new Date(`${dueDate}T${dueTime}`);
       if (selectedDateTime <= new Date()) {
@@ -41,29 +45,15 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
 
     try {
       const dueDateTimeString = new Date(`${dueDate}T${dueTime}`).toISOString();
-      const newAssignment = await createAssignment({
-        id: `assign_${Date.now()}`,
+      await createAssignment({
         title,
         description,
-        created_at: new Date().toISOString(),
-      });
-
-      if (!newAssignment || !newAssignment.id) {
-        throw new Error("Failed to create assignment template.");
-      }
-      await createSubmission({
-        id: `sub_${Date.now()}`,
-        assignmentId: newAssignment.id,
-        student_id: studentId,
-        status: "unsolved",
-        solution: "",
-        comment: "",
-        grade: null,
         dueDate: dueDateTimeString,
-        submittedDate: null,
+        teacherId: user.id,
+        studentId: studentId,
       });
 
-      if (setNotification) setNotification("Homework has been assigned!");
+      if (setNotification) setNotification("Homework assigned successfully!");
       if (closeModal) closeModal();
 
       setTimeout(() => {
@@ -98,7 +88,7 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
           <LinkableTextArea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description (select text and click 🔗 to add link)"
+            placeholder="Description"
             disabled={isLoading}
           />
           {errors.description && (
@@ -108,13 +98,19 @@ const AddHomework = ({ closeModal, setNotification, allStudents = [] }) => {
 
         <div>
           <select
-            id="student-select"
             value={studentId}
             onChange={(e) => {
               setStudentId(e.target.value);
               if (errors.studentId) setErrors({ ...errors, studentId: "" });
             }}
             className={styles.selectField}
+            style={{
+              width: "100%",
+              padding: "10px",
+              borderRadius: "20px",
+              border: "1px solid #ccc",
+              marginBottom: "15px",
+            }}
             required
             disabled={isLoading}
           >

@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import InputField from "../../components/common/InputField";
 import Button from "../../components/common/Button";
 import { useAuth } from "../../context/AuthContext";
 
-const SignUp = ({
-  onSwitchToLogIn,
-  onAuthSuccess,
-  initialEmail = "",
-  linkedTeacherId = null,
-}) => {
+const SignUp = ({ onSwitchToLogIn, onAuthSuccess, initialEmail = "" }) => {
+  const [searchParams] = useSearchParams();
+  const inviteToken = searchParams.get("token");
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState(linkedTeacherId ? "student" : null);
+  const [role, setRole] = useState(inviteToken ? "student" : null);
   const [gender, setGender] = useState(null);
   const [error, setError] = useState("");
+
   const { signup } = useAuth();
+
   useEffect(() => {
     if (initialEmail) setEmail(initialEmail);
-    if (linkedTeacherId) setRole("student");
-  }, [initialEmail, linkedTeacherId]);
+    if (inviteToken) setRole("student");
+  }, [initialEmail, inviteToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +43,7 @@ const SignUp = ({
         password,
         role,
         gender: gender || null,
-        ...(linkedTeacherId && { teacherId: linkedTeacherId }),
+        token: inviteToken || null,
       };
 
       const result = await signup(registrationData);
@@ -61,12 +62,20 @@ const SignUp = ({
   return (
     <div className={styles.signupWrapper}>
       <h2 className={styles.title}>Sign up</h2>
-      {linkedTeacherId && (
-        <p style={{ color: "green", fontSize: "0.9rem", marginBottom: "10px" }}>
-          You are registering via invite!
-        </p>
-      )}
+
       <form className={styles.whiteBox} onSubmit={handleSubmit}>
+        {inviteToken && (
+          <p
+            style={{
+              color: "green",
+              fontSize: "0.9rem",
+              marginBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            You are accepting an invitation!
+          </p>
+        )}
         <InputField
           type="text"
           placeholder="Name"
@@ -109,7 +118,7 @@ const SignUp = ({
             Female
           </button>
         </div>
-        {!linkedTeacherId && (
+        {!inviteToken && (
           <div className={styles.roleButtons}>
             <Button
               type="button"
@@ -133,9 +142,11 @@ const SignUp = ({
         )}
 
         {error && <p className={styles.errorText}>{error}</p>}
+
         <Button type="submit" variant="orange" className={styles.submitButton}>
           Sign up
         </Button>
+
         <div className={styles.logInText}>
           <span className={styles.noAccount}>Already have an account?</span>
           <span className={styles.logInLink} onClick={onSwitchToLogIn}>

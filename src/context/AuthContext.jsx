@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { API_BASE_URL } from "../config/api";
-import { apiGet, apiPost, apiPatch } from "../services/api";
+import { apiPost } from "../services/api";
 
 export const AuthContext = createContext(null);
 
@@ -19,60 +18,39 @@ export const AuthProvider = ({ children }) => {
     }
     setIsLoading(false);
   }, []);
-
   const login = async (email, password) => {
     try {
-      const users = await apiGet(`/users?email=${email}&password=${password}`);
-      if (users.length === 0) {
-        throw new Error("Invalid email or password");
-      }
-      const foundUser = users[0];
-      localStorage.setItem("user", JSON.stringify(foundUser));
-      setUser(foundUser);
-      return { success: true, user: foundUser };
+      const response = await apiPost("/auth/login", { email, password });
+      const { user, token } = response;
+      localStorage.setItem("user", JSON.stringify(user));
+      if (token) localStorage.setItem("token", token);
+
+      setUser(user);
+      return { success: true, user };
     } catch (error) {
       console.error("Login failed:", error);
-      return { success: false, error: error.message };
+      return { success: false, error: error.message || "Login failed" };
     }
   };
 
   const signup = async (userData) => {
     try {
-      const existingUser = await apiGet(`/users?email=${userData.email}`);
-      if (existingUser.length > 0) {
-        throw new Error("Email already in use");
-      }
-      const newUser = await apiPost("/users", {
-        ...userData,
-        createdAt: new Date().toISOString(),
-      });
-      const invites = await apiGet(
-        `/invitations?email=${userData.email}&status=pending`,
-      );
-      if (invites.length > 0 && newUser.role === "student") {
-        const invite = invites[0];
-        const updatedUser = await apiPatch(`/users/${newUser.id}`, {
-          teacherId: invite.teacher_id,
-        });
-        await apiPatch(`/invitations/${invite.id}`, {
-          status: "accepted",
-          accepted_at: new Date().toISOString(),
-        });
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        setUser(updatedUser);
-        return { success: true, user: updatedUser };
-      } else {
-        localStorage.setItem("user", JSON.stringify(newUser));
-        setUser(newUser);
-        return { success: true, user: newUser };
-      }
+      const response = await apiPost("/auth/register", userData);
+      const { user, token } = response;
+      localStorage.setItem("user", JSON.stringify(user));
+      if (token) localStorage.setItem("token", token);
+
+      setUser(user);
+      return { success: true, user };
     } catch (error) {
       console.error("Signup failed:", error);
-      return { success: false, error: error.message };
+      return { success: false, error: error.message || "Registration failed" };
     }
   };
+
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setUser(null);
   };
 

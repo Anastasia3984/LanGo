@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./TaskCard.module.css";
 
-const TaskCard = ({ task, type, onTitleClick, onActionClick }) => {
+const TaskCard = ({ task, type, onTitleClick, onActionClick, onEditClick }) => {
   let col2Style = "";
   if (type === "solved") {
     col2Style = task.isOverdue ? styles.overdue : styles.onTime;
@@ -13,6 +13,7 @@ const TaskCard = ({ task, type, onTitleClick, onActionClick }) => {
   } else {
     col3Style = styles.actionLink;
   }
+
   const displayTitle =
     task.title || (task.assignment && task.assignment.title) || "Unnamed Task";
 
@@ -32,6 +33,25 @@ const TaskCard = ({ task, type, onTitleClick, onActionClick }) => {
       >
         {task.col3}
       </span>
+      {onEditClick && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onEditClick(task);
+          }}
+          title="Edit Assignment"
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "1.2rem",
+            marginLeft: "10px",
+            color: "#888",
+          }}
+          onMouseOver={(e) => (e.target.style.color = "#FF7F50")}
+          onMouseOut={(e) => (e.target.style.color = "#888")}
+        ></button>
+      )}
     </div>
   );
 };

@@ -2,11 +2,12 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.4",
     "@babel/preset-react": "^7.27.1",
-    "@eslint/js": " 9.38.0",
+    "@eslint/js": "9.38.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
     "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
     "cypress": "^15.5.0",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
@@ -30,10 +31,13 @@
     "format": "prettier --write .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "server": "json-server --watch db.json --port 3002"
+    "dev:client": "vite",
+    "build:client": "vite build",
+    "preview:client": "vite preview",
+    "server:mock": "json-server --watch db.json --port 3002",
+    "start:server": "npm run dev --prefix backend",
+    "dev:all": "concurrently \"npm run dev:client\" \"npm run start:server\"",
+    "dev": "npm run dev:all"
   },
   "dependencies": {
     "express": "^5.1.0",

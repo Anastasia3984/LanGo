@@ -133,12 +133,7 @@ const TeachPage = () => {
   };
   const handleInviteStudent = () => {
     openModal(
-      <InviteStud
-        closeModal={closeModal}
-        setNotification={setNotification}
-        onInvite={handleSendInvitation}
-      />,
-      { setNotification },
+      <InviteStud closeModal={closeModal} setNotification={setNotification} />,
     );
   };
 

@@ -10,7 +10,6 @@ const StudentProfile = ({
   openModal,
   setNotification,
   onDeleteStudent,
-  navigate,
 }) => {
   const { tasks, loading, error } = useTasks(student.id);
 
@@ -24,7 +23,7 @@ const StudentProfile = ({
     if (closeModal) {
       closeModal();
     }
-    navigate(`/teacher/student/${student.id}`);
+    window.location.href = `/teacher/student/${student.id}`;
   };
 
   const handleDeleteStudent = () => {
@@ -35,7 +34,6 @@ const StudentProfile = ({
           openModal={openModal}
           setNotification={setNotification}
           onDeleteStudent={onDeleteStudent}
-          navigate={navigate}
           closeModal={closeModal}
         />,
       );
@@ -54,16 +52,13 @@ const StudentProfile = ({
   const handleTaskClick = (task) => {
     console.log("Opening task details for:", task.assignment.title);
   };
+
   const renderTaskList = () => {
-    if (loading) {
-      return <p className={styles.noTasks}>Loading tasks...</p>;
-    }
-    if (error) {
-      return <p className={styles.noTasks}>Failed to load tasks.</p>;
-    }
-    if (uncheckedTasks.length === 0) {
+    if (loading) return <p className={styles.noTasks}>Loading tasks...</p>;
+    if (error) return <p className={styles.noTasks}>Failed to load tasks.</p>;
+    if (uncheckedTasks.length === 0)
       return <p className={styles.noTasks}>No unchecked tasks</p>;
-    }
+
     return uncheckedTasks.map((task) => (
       <div
         key={task.id}

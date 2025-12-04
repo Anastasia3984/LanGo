@@ -3,17 +3,25 @@ import styles from "./InviteStud.module.css";
 import InputField from "../../components/common/InputField";
 import TextArea from "../../components/common/TextArea";
 import Button from "../../components/common/Button";
+import { usePost } from "../../hooks/usePost";
+import { useAuth } from "../../context/AuthContext";
 
-const InviteStud = ({ onInvite, closeModal, setNotification }) => {
+const InviteStud = ({ closeModal, setNotification }) => {
+  const { user } = useAuth();
+  const { post } = usePost("/invitations");
+
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(
     "Hello! I'd like to invite you to join our learning platform.",
   );
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [testLink, setTestLink] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setTestLink(null);
 
     if (!email.trim()) {
       setError("Email is required.");
@@ -23,21 +31,22 @@ const InviteStud = ({ onInvite, closeModal, setNotification }) => {
     setIsLoading(true);
 
     try {
-      await onInvite(email);
-      if (typeof setNotification === "function") {
-        setNotification("Invitation was sent successfully!");
-      }
+      const response = await post({
+        email,
+        message,
+        teacherId: user.id,
+      });
 
-      if (typeof closeModal === "function") {
-        closeModal();
+      if (response && response.link) {
+        setTestLink(response.link);
+        if (setNotification) setNotification("Test link generated! See below.");
+      } else {
+        if (setNotification) setNotification("Invitation sent successfully!");
+        if (closeModal) closeModal();
       }
-      setTimeout(() => {
-        if (typeof setNotification === "function") {
-          setNotification("");
-        }
-      }, 5000);
     } catch (err) {
-      setError(err.message || "Failed to send invitation. Please try again.");
+      console.error(err);
+      setError(err.message || "Failed to send invitation.");
     } finally {
       setIsLoading(false);
     }
@@ -65,6 +74,20 @@ const InviteStud = ({ onInvite, closeModal, setNotification }) => {
           rows={3}
           disabled={isLoading}
         />
+        {testLink && (
+          <div className={styles.testLinkBox}>
+            <span className={styles.linkLabel}>Link generated:</span>
+            <a
+              href={testLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.linkUrl}
+            >
+              Click to register
+            </a>
+          </div>
+        )}
+
         {error && <p className={styles.errorText}>{error}</p>}
 
         <Button
