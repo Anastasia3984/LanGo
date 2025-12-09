@@ -7,6 +7,8 @@ const InputField = ({
   value,
   onChange,
   className = "",
+  disabled = false,
+  "data-cy": dataCy,
 }) => {
   return (
     <div className={`${styles.inputWrapper} ${className}`}>
@@ -16,6 +18,8 @@ const InputField = ({
         value={value}
         onChange={onChange}
         className={styles.input}
+        disabled={disabled}
+        data-cy={dataCy}
       />
     </div>
   );
