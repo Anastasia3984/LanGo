@@ -2,6 +2,43 @@ import React, { useState } from "react";
 import styles from "./ClickTitleStud.module.css";
 import Button from "../../components/common/Button";
 
+const renderDescription = (text) => {
+  if (!text) return "";
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const matches = [...text.matchAll(regex)];
+  if (matches.length === 0) return text;
+
+  const elements = [];
+  let lastIndex = 0;
+
+  matches.forEach((match, i) => {
+    const [fullMatch, linkText, linkUrl] = match;
+    const index = match.index;
+    if (index > lastIndex) {
+      elements.push(text.substring(lastIndex, index));
+    }
+
+    elements.push(
+      <a
+        href={linkUrl}
+        key={i}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.descriptionLink}
+      >
+        {linkText}
+      </a>,
+    );
+
+    lastIndex = index + fullMatch.length;
+  });
+  if (lastIndex < text.length) {
+    elements.push(text.substring(lastIndex));
+  }
+
+  return elements;
+};
+
 const ClickTitleStud = ({
   closeModal,
   setNotification,
@@ -10,65 +47,54 @@ const ClickTitleStud = ({
   onSaveProgress,
 }) => {
   const [solution, setSolution] = useState(homework?.solution || "");
-  const getTimeRemaining = () => {
-    return homework?.timeRemaining || "1d 4h";
-  };
 
   const handleMarkAsSolved = () => {
     if (!solution.trim()) {
-      alert("Please provide a solution before marking as solved!");
+      if (setNotification) {
+        setNotification("Please provide a solution before marking as solved!");
+        setTimeout(() => setNotification(""), 3000);
+      }
       return;
     }
 
-    console.log("Marking as solved:", { homework, solution });
-    if (typeof onMarkAsSolved === "function") {
+    if (onMarkAsSolved) {
       onMarkAsSolved(homework.id, solution);
     }
 
-    if (typeof setNotification === "function") {
-      setNotification("Homework marked as solved!");
-    }
-
-    if (typeof closeModal === "function") {
-      closeModal();
-    }
+    if (setNotification) setNotification("Homework marked as solved!");
+    if (closeModal) closeModal();
 
     setTimeout(() => {
-      if (typeof setNotification === "function") {
-        setNotification("");
-      }
+      if (setNotification) setNotification("");
     }, 5000);
   };
 
   const handleSaveProgress = () => {
-    console.log("Saving progress:", { homework, solution });
-    if (typeof onSaveProgress === "function") {
+    if (onSaveProgress) {
       onSaveProgress(homework.id, solution);
     }
-    if (typeof setNotification === "function") {
-      setNotification("Progress has been saved!");
-    }
-    if (typeof closeModal === "function") {
-      closeModal();
-    }
+    if (setNotification) setNotification("Progress has been saved!");
+    if (closeModal) closeModal();
     setTimeout(() => {
-      if (typeof setNotification === "function") {
-        setNotification("");
-      }
+      if (setNotification) setNotification("");
     }, 3000);
   };
 
   return (
     <div className={styles.homeworkModal}>
       <h2 className={styles.title}>Homework</h2>
-      <div className={styles.subtitle}>{getTimeRemaining()}</div>
+      <div className={styles.subtitle}>
+        Time remaining: {homework?.timeRemainingDisplay || "Unknown"}
+      </div>
       <h3 className={styles.taskTitle}>{homework?.title || "Title"}</h3>
 
       <div className={styles.content}>
         <div className={styles.section}>
           <label className={styles.label}>Description</label>
           <div className={styles.descriptionBox}>
-            {homework?.description || "No description provided"}
+            {homework?.description
+              ? renderDescription(homework.description)
+              : "No description provided"}
           </div>
         </div>
 

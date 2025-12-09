@@ -124,3 +124,31 @@
     padding: 16px;
   }
 }
+
+.testLinkBox {
+  margin-top: 15px;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.linkLabel {
+  color: #555;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.linkUrl {
+  color: #ff7f50;
+  text-decoration: underline;
+  cursor: pointer;
+  word-break: break-all;
+}
+
+.linkUrl:hover {
+  color: #e06b40;
+  text-decoration: none;
+}

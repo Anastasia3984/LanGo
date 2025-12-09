@@ -82,7 +82,7 @@
   border-radius: 12px;
   line-height: 1.4;
   transition: background-color 0.2s;
-  cursor: pointer; /* 👈 Додай це */
+  cursor: pointer;
 }
 
 .taskItem:hover {
@@ -91,7 +91,7 @@
 
 .noTasks {
   text-align: center;
-  color: #999;
+  color: #999999;
   font-family: "Literata", serif;
   font-style: italic;
   margin: auto;

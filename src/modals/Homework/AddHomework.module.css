@@ -3,7 +3,7 @@
   border-radius: 32px;
   padding: 40px 22.5px 40px;
   width: 380px;
-  height: 600px;
+  height: 580px;
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -19,7 +19,7 @@
   font-family: "Lilita One", cursive;
   line-height: 1;
   position: absolute;
-  top: -25px;
+  top: -28px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -28,8 +28,9 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   flex: 1;
+  padding-top: 10px;
 }
 
 .inputField {
@@ -56,6 +57,35 @@
 
 .inputField input:focus {
   background-color: #ddd;
+}
+
+.selectField {
+  width: 340px;
+  padding: 18px 24px;
+  border: none;
+  border-radius: 50px;
+  background-color: #e8e8e8;
+  font-size: 16px;
+  font-family: "Literata", serif;
+  color: #666;
+  outline: none;
+  transition: background-color 0.2s;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-13%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2013l128%20128c3.6%203.6%207.8%205.4%2013%205.4s9.4-1.8%2013-5.4L287%2095.2c3.6-3.6%205.4-7.8%205.4-13s-1.8-9.4-5.4-13z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 24px top 50%;
+  background-size: 0.65em auto;
+  cursor: pointer;
+}
+
+.selectField:focus {
+  background-color: #ddd;
+}
+.selectField option[value=""] {
+  color: #999;
 }
 
 .textArea {
@@ -90,9 +120,20 @@
   font-size: 25px;
   font-weight: 500;
   font-family: "Literata", serif;
-  margin: 20px auto 0;
   margin: 10px auto 0;
 }
+
+.dateAndTimeGroup {
+  display: flex;
+  gap: 10px;
+}
+.dateAndTimeGroup > div {
+  flex: 1;
+}
+.dateAndTimeGroup .inputField input {
+  width: 100%;
+}
+
 .inputField input[type="date"],
 .inputField input[type="time"] {
   color: #666;
@@ -108,6 +149,14 @@
 .inputField input[type="date"]:hover::-webkit-calendar-picker-indicator,
 .inputField input[type="time"]:hover::-webkit-calendar-picker-indicator {
   filter: invert(40%);
+}
+
+.errorText {
+  color: #d00000;
+  font-size: 13px;
+  margin-top: -5px;
+  padding-left: 20px;
+  font-family: "Literata", serif;
 }
 
 @media (max-width: 640px) {
@@ -126,13 +175,15 @@
 
   .inputField input,
   .textArea,
+  .selectField,
   .submitButton {
     width: 100%;
     max-width: 340px;
   }
 
   .inputField input,
-  .textArea {
+  .textArea,
+  .selectField {
     padding: 16px 20px;
     font-size: 15px;
   }
@@ -140,20 +191,5 @@
   .submitButton {
     font-size: 22px;
     padding: 16px;
-  }
-
-  .descriptionWrapper {
-    position: relative;
-  }
-
-  .hint {
-    font-size: 11px;
-    color: #999;
-    margin-top: 4px;
-    padding-left: 24px;
-    font-family: "Literata", serif;
-  }
-  .richEditor {
-    margin: 0;
   }
 }

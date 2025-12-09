@@ -127,7 +127,6 @@
   line-height: 1;
   margin-bottom: 20px;
   text-shadow: 4px 4px 0 rgba(255, 107, 53, 0.2);
-  animation: bounce 2s infinite;
 }
 
 @keyframes bounce {

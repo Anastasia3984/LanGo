@@ -6,15 +6,20 @@ import { useAuth } from "../context/AuthContext";
 
 const MainLayout = () => {
   const [notification, setNotification] = useState("");
-  const { user, logout, isAuth } = useAuth();
+  const { user, logout, isAuth, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (isLoading) {
+      return;
+    }
     if (!isAuth) {
       navigate("/");
     }
-  }, [isAuth, navigate]);
-
+  }, [isAuth, isLoading, navigate]);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   if (!isAuth) {
     return null;
   }

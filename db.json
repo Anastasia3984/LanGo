@@ -1,0 +1,346 @@
+{
+  "users": [
+    {
+      "id": "t1",
+      "email": "teacher@gmail.com",
+      "password": "password123",
+      "role": "teacher",
+      "name": "Teacher Name"
+    },
+    {
+      "id": "s1",
+      "email": "student@gmail.com",
+      "password": "password123",
+      "role": "student",
+      "name": "Andriy",
+      "teacherId": "t1"
+    },
+    {
+      "id": "t2",
+      "name": "Teacher 2",
+      "email": "userrr@gmail.com",
+      "password": "jdshdlshd3e",
+      "role": "teacher",
+      "gender": "female"
+    },
+    {
+      "id": "s2",
+      "name": "Olena",
+      "email": "student@user.com",
+      "password": "fdnfke42ewd",
+      "role": "student",
+      "gender": "female",
+      "teacherId": "t1"
+    },
+    {
+      "id": "u_1762882119130",
+      "name": "inviteNew",
+      "email": "newwww@sd.com",
+      "password": "dddddddddee3",
+      "role": "student",
+      "gender": "female",
+      "createdAt": "2025-11-11T17:28:39.130Z"
+    },
+    {
+      "name": "Inna",
+      "email": "someone@gmail.com",
+      "password": "innasspasswordd",
+      "role": "student",
+      "gender": "female",
+      "createdAt": "2025-11-17T18:32:28.155Z",
+      "id": "IP2Wzk1",
+      "teacherId": "t1"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "assign_1762892849265",
+      "title": "new1",
+      "description": "sth1",
+      "created_at": "2025-11-11T20:27:29.265Z"
+    },
+    {
+      "id": "assign_1763399785429",
+      "title": "sth",
+      "description": "more than sth",
+      "created_at": "2025-11-17T17:16:25.429Z"
+    },
+    {
+      "id": "assign_1763400159312",
+      "title": "new title",
+      "description": "something.....",
+      "created_at": "2025-11-17T17:22:39.312Z"
+    },
+    {
+      "id": "assign_1763400535758",
+      "title": "homeworkk",
+      "description": "sth",
+      "created_at": "2025-11-17T17:28:55.758Z"
+    },
+    {
+      "id": "assign_1763401556885",
+      "title": "ttt",
+      "description": "ddd",
+      "created_at": "2025-11-17T17:45:56.885Z"
+    },
+    {
+      "id": "assign_1763401866245",
+      "title": "tttt",
+      "description": "dddsds",
+      "created_at": "2025-11-17T17:51:06.245Z"
+    },
+    {
+      "id": "assign_1763406161929",
+      "title": "neww",
+      "description": "sth",
+      "created_at": "2025-11-17T19:02:41.929Z"
+    },
+    {
+      "id": "assign_1763407016393",
+      "title": "sth new",
+      "description": "add [link](https://teacher@gmail.com)",
+      "created_at": "2025-11-17T19:16:56.393Z"
+    },
+    {
+      "id": "assign_1763410735327",
+      "title": "present simple",
+      "description": "question?",
+      "created_at": "2025-11-17T20:18:55.327Z"
+    },
+    {
+      "id": "assign_1763410831172",
+      "title": "aaa",
+      "description": "sasa",
+      "created_at": "2025-11-17T20:20:31.172Z"
+    },
+    {
+      "id": "assign_1763410842432",
+      "title": "sdsd",
+      "description": "sth",
+      "created_at": "2025-11-17T20:20:42.432Z"
+    },
+    {
+      "id": "assign_1763410869601",
+      "title": "sss",
+      "description": "sss",
+      "created_at": "2025-11-17T20:21:09.601Z"
+    },
+    {
+      "id": "assign_1763410889456",
+      "title": "32ew",
+      "description": "wewe",
+      "created_at": "2025-11-17T20:21:29.456Z"
+    },
+    {
+      "id": "assign_1763410908673",
+      "title": "dsdsd",
+      "description": "dsdsds",
+      "created_at": "2025-11-17T20:21:48.673Z"
+    },
+    {
+      "id": "assign_1763410929523",
+      "title": "newwww",
+      "description": "dsdsds",
+      "created_at": "2025-11-17T20:22:09.523Z"
+    }
+  ],
+  "submissions": [
+    {
+      "id": "sub_1762892849294",
+      "assignmentId": "assign_1762892849265",
+      "student_id": "s1",
+      "status": "reviewed",
+      "solution": "ddsdsfeds",
+      "comment": "super! 100/100",
+      "grade": null,
+      "col2": "Due soon",
+      "col3": "edit",
+      "dueDate": "2026-11-11T11:11:00",
+      "submittedDate": "2025-11-17T17:47:17.230Z",
+      "isOverdue": false
+    },
+    {
+      "id": "sub_1763399785509",
+      "assignmentId": "assign_1763399785429",
+      "student_id": "s1",
+      "status": "unsolved",
+      "solution": "sdssdwd",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-11-20T09:11:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763400159347",
+      "assignmentId": "assign_1763400159312",
+      "student_id": "s2",
+      "status": "unreviewed",
+      "solution": "solutionn",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-11-18T09:11:00.000Z",
+      "submittedDate": "2025-11-17T19:18:42.150Z"
+    },
+    {
+      "id": "sub_1763400535803",
+      "assignmentId": "assign_1763400535758",
+      "student_id": "u_1762882119130",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-11-20T10:34:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763401556949",
+      "assignmentId": "assign_1763401556885",
+      "student_id": "u_1762882119130",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2222-02-20T20:22:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763401866298",
+      "assignmentId": "assign_1763401866245",
+      "student_id": "s1",
+      "status": "unreviewed",
+      "solution": "ssss",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-11-17T17:52:00.000Z",
+      "submittedDate": "2025-11-17T17:53:02.071Z"
+    },
+    {
+      "id": "sub_1763406162028",
+      "assignmentId": "assign_1763406161929",
+      "student_id": "IP2Wzk1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-12-12T09:11:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763407016482",
+      "assignmentId": "assign_1763407016393",
+      "student_id": "s2",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2026-02-20T09:11:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763410735400",
+      "assignmentId": "assign_1763410735327",
+      "student_id": "IP2Wzk1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-11-20T10:12:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763410831206",
+      "assignmentId": "assign_1763410831172",
+      "student_id": "s1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-11-22T10:21:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763410842471",
+      "assignmentId": "assign_1763410842432",
+      "student_id": "s1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-12-12T21:43:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763410869644",
+      "assignmentId": "assign_1763410869601",
+      "student_id": "s1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2323-12-12T10:01:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763410889504",
+      "assignmentId": "assign_1763410889456",
+      "student_id": "s1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2025-12-12T10:12:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763410908715",
+      "assignmentId": "assign_1763410908673",
+      "student_id": "s1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2026-12-12T01:22:00.000Z",
+      "submittedDate": null
+    },
+    {
+      "id": "sub_1763410929550",
+      "assignmentId": "assign_1763410929523",
+      "student_id": "s1",
+      "status": "unsolved",
+      "solution": "",
+      "comment": "",
+      "grade": null,
+      "dueDate": "2026-12-12T10:21:00.000Z",
+      "submittedDate": null
+    }
+  ],
+  "invitations": [
+    {
+      "id": "inv1",
+      "email": "newstudent@example.com",
+      "teacher_id": "t1",
+      "status": "pending",
+      "created_at": "2024-11-09T10:00:00Z",
+      "accepted_at": null,
+      "token": "invite_token_123"
+    },
+    {
+      "id": "inv_1762881858022",
+      "email": "newwww@sd.com",
+      "teacher_id": "t1",
+      "status": "pending",
+      "created_at": "2025-11-11T17:24:18.022Z",
+      "accepted_at": null,
+      "token": "token_023a433lx"
+    },
+    {
+      "id": "inv_1763404121359",
+      "email": "someone@gmail.com",
+      "teacher_id": "t1",
+      "status": "accepted",
+      "created_at": "2025-11-17T18:28:41.359Z",
+      "accepted_at": "2025-11-17T18:32:28.253Z",
+      "token": "token_1763404121359_31i5a81gg2p"
+    }
+  ]
+}

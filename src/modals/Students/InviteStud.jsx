@@ -3,42 +3,52 @@ import styles from "./InviteStud.module.css";
 import InputField from "../../components/common/InputField";
 import TextArea from "../../components/common/TextArea";
 import Button from "../../components/common/Button";
+import { usePost } from "../../hooks/usePost";
+import { useAuth } from "../../context/AuthContext";
 
 const InviteStud = ({ closeModal, setNotification }) => {
+  const { user } = useAuth();
+  const { post } = usePost("/invitations");
+
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(
     "Hello! I'd like to invite you to join our learning platform.",
   );
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [testLink, setTestLink] = useState(null);
 
-  console.log("🔍 InviteStud props:", { closeModal, setNotification });
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("✅ Form submitted!");
-    console.log("📧 Email:", email);
-    if (email.trim()) {
-      console.log("🎉 Email is valid, proceeding...");
-      if (typeof setNotification === "function") {
-        console.log("✅ setNotification is a function, calling it...");
-        setNotification("Invitation was sent to student's email!");
-      } else {
-        console.error("❌ setNotification is NOT a function:", setNotification);
-      }
+    setError("");
+    setTestLink(null);
 
-      if (typeof closeModal === "function") {
-        console.log("✅ closeModal is a function, calling it...");
-        closeModal();
-      } else {
-        console.error("❌ closeModal is NOT a function:", closeModal);
-      }
+    if (!email.trim()) {
+      setError("Email is required.");
+      return;
+    }
 
-      setTimeout(() => {
-        if (typeof setNotification === "function") {
-          setNotification("");
-        }
-      }, 5000);
-    } else {
-      console.log("❌ Email is empty!");
+    setIsLoading(true);
+
+    try {
+      const response = await post({
+        email,
+        message,
+        teacherId: user.id,
+      });
+
+      if (response && response.link) {
+        setTestLink(response.link);
+        if (setNotification) setNotification("Test link generated! See below.");
+      } else {
+        if (setNotification) setNotification("Invitation sent successfully!");
+        if (closeModal) closeModal();
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Failed to send invitation.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,6 +63,7 @@ const InviteStud = ({ closeModal, setNotification }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className={styles.inputField}
+          disabled={isLoading}
         />
 
         <TextArea
@@ -61,10 +72,31 @@ const InviteStud = ({ closeModal, setNotification }) => {
           onChange={(e) => setMessage(e.target.value)}
           className={styles.textArea}
           rows={3}
+          disabled={isLoading}
         />
+        {testLink && (
+          <div className={styles.testLinkBox}>
+            <span className={styles.linkLabel}>Link generated:</span>
+            <a
+              href={testLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.linkUrl}
+            >
+              Click to register
+            </a>
+          </div>
+        )}
 
-        <Button type="submit" variant="orange" className={styles.submitButton}>
-          Invite
+        {error && <p className={styles.errorText}>{error}</p>}
+
+        <Button
+          type="submit"
+          variant="orange"
+          className={styles.submitButton}
+          disabled={isLoading}
+        >
+          {isLoading ? "Sending..." : "Invite"}
         </Button>
       </form>
     </div>

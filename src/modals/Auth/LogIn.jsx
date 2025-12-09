@@ -3,45 +3,33 @@ import styles from "./LogIn.module.css";
 import InputField from "../../components/common/InputField";
 import Button from "../../components/common/Button";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-
-const LogIn = ({ onSwitchToSignUp }) => {
+const LogIn = ({ onSwitchToSignUp, onAuthSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     if (!email || !password) {
-      setError("Please fill in all fields");
+      setError("*Please fill in all fields");
       return;
     }
 
     try {
-      console.log("Відправка на сервер:", { email, password });
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const result = await login(email, password);
 
-      const fakeUserData = {
-        id: 1,
-        name: "Test User",
-        email: email,
-        role: "teacher",
-      };
-
-      login(fakeUserData);
-      if (fakeUserData.role === "teacher") {
-        navigate("/teacher");
+      if (result.success) {
+        onAuthSuccess(result.user.role);
       } else {
-        navigate("/student");
+        setError(result.error);
       }
     } catch (err) {
-      console.error("Login failed:", err);
-      setError("Invalid email or password");
+      console.error("Login failed unexpectedly:", err);
+      setError("An unexpected error occurred. Please try again.");
     }
   };
 
