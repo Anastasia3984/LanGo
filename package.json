@@ -28,6 +28,8 @@
     "prettier": "^3.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "rimraf": "^6.1.2",
+    "typescript": "^5.9.3",
     "vite": "^7.1.11",
     "vite-plugin-istanbul": "^7.2.1"
   },
@@ -47,9 +49,16 @@
     "dev": "npm run dev:all",
     "test:component": "cross-env NODE_ENV=test cypress run --component",
     "test:component:open": "cross-env NODE_ENV=test cypress open --component",
-    "coverage:report": "npm run test:component && nyc report --reporter=html"
+    "test:coverage": "cross-env CYPRESS=true cypress run --component",
+    "test:e2e": "cross-env CYPRESS=true cypress run --e2e",
+    "test:all": "npm run test:coverage || echo ComponentTestsFailed && npm run test:e2e",
+    "ci:full-coverage": "npx rimraf .nyc_output coverage && (npm run test:all || true) && npm run coverage:report",
+    "coverage:report": "nyc report --reporter=html --reporter=text-summary",
+    "ci:coverage": "npx rimraf .nyc_output coverage && npm run test:coverage || npm run coverage:report"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "express": "^5.1.0",
     "react-router-dom": "^7.9.5"
   }

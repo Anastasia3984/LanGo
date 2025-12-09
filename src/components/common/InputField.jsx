@@ -7,8 +7,8 @@ const InputField = ({
   value,
   onChange,
   className = "",
-  disabled = false, // 1. ПОВЕРНУТО пропс disabled
-  "data-cy": dataCy, // 2. ПОВЕРНУТО пропс data-cy
+  disabled = false,
+  "data-cy": dataCy,
 }) => {
   return (
     <div className={`${styles.inputWrapper} ${className}`}>
@@ -18,7 +18,6 @@ const InputField = ({
         value={value}
         onChange={onChange}
         className={styles.input}
-        // 3. ПЕРЕДАЄМО атрибути до DOM-елементу <input>
         disabled={disabled}
         data-cy={dataCy}
       />

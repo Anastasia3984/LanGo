@@ -1,11 +1,11 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { apiPost } from "../services/api";
-
-export const AuthContext = createContext(null);
+export const AuthContext = createContext(undefined);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -18,10 +18,12 @@ export const AuthProvider = ({ children }) => {
     }
     setIsLoading(false);
   }, []);
+
   const login = async (email, password) => {
     try {
       const response = await apiPost("/auth/login", { email, password });
       const { user, token } = response;
+
       localStorage.setItem("user", JSON.stringify(user));
       if (token) localStorage.setItem("token", token);
 
@@ -37,6 +39,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await apiPost("/auth/register", userData);
       const { user, token } = response;
+
       localStorage.setItem("user", JSON.stringify(user));
       if (token) localStorage.setItem("token", token);
 
