@@ -6,14 +6,15 @@ const isCypress = process.env.CYPRESS;
 export default defineConfig({
   plugins: [
     react(),
-    isCypress && istanbul({
-      include: 'src/*', 
-      exclude: ['node_modules', 'cypress/', '**/test/'], 
-      cypress: true, 
-      extension: ['.js', '.jsx', '.ts', '.tsx'],
-    }),
-  ].filter(Boolean), 
-  
+    isCypress &&
+      istanbul({
+        include: "src/*",
+        exclude: ["node_modules", "cypress/", "**/test/"],
+        cypress: true,
+        extension: [".js", ".jsx", ".ts", ".tsx"],
+      }),
+  ].filter(Boolean),
+
   server: {
     port: 5173,
     hmr: {

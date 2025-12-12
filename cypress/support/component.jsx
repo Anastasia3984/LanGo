@@ -12,15 +12,14 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-import './commands.js';
-import '@cypress/code-coverage/support';
-import TestProviders from './TestProviders.jsx';
-import { mount } from 'cypress/react';
+import "./commands.js";
+import "@cypress/code-coverage/support";
+import TestProviders from "./TestProviders.jsx";
+import { mount } from "cypress/react";
 
-Cypress.Commands.add('mount', (component, options = {}) => {
+Cypress.Commands.add("mount", (component, options = {}) => {
   return mount(<TestProviders>{component}</TestProviders>, options);
 });
-
 
 // Example use:
 // cy.mount(<MyComponent />)

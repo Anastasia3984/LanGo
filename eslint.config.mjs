@@ -3,7 +3,7 @@ import pluginReact from "eslint-plugin-react";
 import pluginPrettier from "eslint-plugin-prettier";
 import { defineConfig } from "eslint/config";
 import babelParser from "@babel/eslint-parser";
-import pluginCypress from "eslint-plugin-cypress"; 
+import pluginCypress from "eslint-plugin-cypress";
 const cypressGlobals = {
   cy: "writable",
   Cypress: "writable",
@@ -67,13 +67,13 @@ export default defineConfig([
       },
     },
     rules: {
-      "no-undef": "off", 
+      "no-undef": "off",
     },
   },
   {
-    files: ["**/*.cy.{js,jsx}"], 
-    ...pluginCypress.configs.recommended, 
-    
+    files: ["**/*.cy.{js,jsx}"],
+    ...pluginCypress.configs.recommended,
+
     languageOptions: {
       parser: babelParser,
       parserOptions: {
@@ -94,14 +94,14 @@ export default defineConfig([
         ...cypressGlobals,
       },
     },
-    
+
     plugins: {
-        cypress: pluginCypress,
+      cypress: pluginCypress,
     },
-    
+
     rules: {
-      "no-undef": "error", 
-      "cypress/no-unnecessary-waiting": "warn", 
+      "no-undef": "error",
+      "cypress/no-unnecessary-waiting": "warn",
     },
   },
 ]);

@@ -20,7 +20,7 @@ describe("REAL System: Auth Flow (Frontend + Backend + DB)", () => {
   });
 
   it("2. Registers a new Student (Happy Path)", () => {
-    cy.clearLocalStorage(); 
+    cy.clearLocalStorage();
     cy.reload();
     cy.contains("span", "Sign up").click();
     cy.get('input[placeholder="Name"]').type(`Real Student ${timestamp}`);
@@ -36,12 +36,14 @@ describe("REAL System: Auth Flow (Frontend + Backend + DB)", () => {
     cy.contains(/Please fill in all fields|required/i).should("be.visible");
     cy.contains("span", "Sign up").click();
     cy.get("button").contains("Sign up").click();
-    cy.contains(/Please fill in all required fields|required/i).should("be.visible");
+    cy.contains(/Please fill in all required fields|required/i).should(
+      "be.visible",
+    );
   });
 
   it("4. Validation: Prevents registration with short password", () => {
     cy.contains("span", "Sign up").click();
-    
+
     cy.get('input[placeholder="Name"]').type("Bad User");
     cy.get('input[placeholder="Email"]').type(`bad.${timestamp}@test.com`);
     cy.get('input[placeholder="Password"]').type("123");
@@ -49,7 +51,9 @@ describe("REAL System: Auth Flow (Frontend + Backend + DB)", () => {
     cy.contains("button", "Male").click();
     cy.get("button").contains("Sign up").click();
     cy.url().should("not.include", "/student");
-    cy.contains(/Password must contain at least 8 characters/i).should("be.visible");
+    cy.contains(/Password must contain at least 8 characters/i).should(
+      "be.visible",
+    );
   });
 
   it("5. Security: Redirects unauthenticated user from protected route", () => {
@@ -63,11 +67,13 @@ describe("REAL System: Auth Flow (Frontend + Backend + DB)", () => {
     cy.reload();
     cy.contains("span", "Sign up").click();
     cy.get('input[placeholder="Name"]').type("Duplicate Teacher");
-    cy.get('input[placeholder="Email"]').type(teacherEmail); 
+    cy.get('input[placeholder="Email"]').type(teacherEmail);
     cy.get('input[placeholder="Password"]').type(password);
     cy.contains("button", "teacher").click();
     cy.contains("button", "Male").click();
     cy.get("button").contains("Sign up").click();
-    cy.contains(/User already exists|Something went wrong/i).should("be.visible");
+    cy.contains(/User already exists|Something went wrong/i).should(
+      "be.visible",
+    );
   });
 });
