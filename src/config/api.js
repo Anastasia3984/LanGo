@@ -5,7 +5,7 @@ export const API_CONFIG = {
     baseURL: "http://localhost:3002",
   },
   production: {
-    baseURL: "https://api.yourapp.com",
+    baseURL: "https://lango-4tlk.onrender.com",
   },
 };
 
