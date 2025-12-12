@@ -37,8 +37,9 @@ router.post("/", async (req, res) => {
     });
 
     await newInvitation.save();
-    const inviteLink = `http://localhost:5173//?token=${token}`;
-
+    const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+    const inviteLink = `${clientUrl}/?token=${token}`;
+    
     console.log(`✅ [Mock Email] Запрошення створено для: ${email}`);
     console.log(`🔗 Link: ${inviteLink}`);
     res.status(201).json({
