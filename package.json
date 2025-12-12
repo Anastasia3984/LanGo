@@ -2,15 +2,20 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.4",
     "@babel/preset-react": "^7.27.1",
+    "@cypress/code-coverage": "^3.14.7",
     "@eslint/js": "9.38.0",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@testing-library/cypress": "^10.1.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
     "@vitejs/plugin-react": "^5.0.4",
     "concurrently": "^9.2.1",
-    "cypress": "^15.5.0",
+    "cross-env": "^10.1.0",
+    "cypress": "^15.7.1",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^5.2.0",
     "eslint-plugin-jest": "^29.0.1",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
@@ -19,10 +24,14 @@
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "json-server": "^0.17.4",
+    "nyc": "^17.1.0",
     "prettier": "^3.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "vite": "^7.1.11"
+    "rimraf": "^6.1.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11",
+    "vite-plugin-istanbul": "^7.2.1"
   },
   "scripts": {
     "prepare": "husky install",
@@ -37,9 +46,19 @@
     "server:mock": "json-server --watch db.json --port 3002",
     "start:server": "npm run dev --prefix backend",
     "dev:all": "concurrently \"npm run dev:client\" \"npm run start:server\"",
-    "dev": "npm run dev:all"
+    "dev": "npm run dev:all",
+    "test:component": "cross-env NODE_ENV=test cypress run --component",
+    "test:component:open": "cross-env NODE_ENV=test cypress open --component",
+    "test:coverage": "cross-env CYPRESS=true cypress run --component",
+    "test:e2e": "cross-env CYPRESS=true cypress run --e2e",
+    "test:all": "npm run test:coverage || echo ComponentTestsFailed && npm run test:e2e",
+    "ci:full-coverage": "npx rimraf .nyc_output coverage && (npm run test:all || true) && npm run coverage:report",
+    "coverage:report": "nyc report --reporter=html --reporter=text-summary",
+    "ci:coverage": "npx rimraf .nyc_output coverage && npm run test:coverage || npm run coverage:report"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "express": "^5.1.0",
     "react-router-dom": "^7.9.5"
   }

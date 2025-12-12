@@ -3,6 +3,13 @@ import pluginReact from "eslint-plugin-react";
 import pluginPrettier from "eslint-plugin-prettier";
 import { defineConfig } from "eslint/config";
 import babelParser from "@babel/eslint-parser";
+import pluginCypress from "eslint-plugin-cypress";
+const cypressGlobals = {
+  cy: "writable",
+  Cypress: "writable",
+  assert: "writable",
+  expect: "writable",
+};
 
 export default defineConfig([
   {
@@ -23,7 +30,6 @@ export default defineConfig([
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest,
       },
     },
     plugins: {
@@ -62,6 +68,40 @@ export default defineConfig([
     },
     rules: {
       "no-undef": "off",
+    },
+  },
+  {
+    files: ["**/*.cy.{js,jsx}"],
+    ...pluginCypress.configs.recommended,
+
+    languageOptions: {
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: false,
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+        babelOptions: {
+          presets: ["@babel/preset-react"],
+        },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.mocha,
+        ...cypressGlobals,
+      },
+    },
+
+    plugins: {
+      cypress: pluginCypress,
+    },
+
+    rules: {
+      "no-undef": "error",
+      "cypress/no-unnecessary-waiting": "warn",
     },
   },
 ]);

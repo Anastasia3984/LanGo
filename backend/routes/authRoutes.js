@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require("../models/user");
 const Invitation = require("../models/invitation");
 const { v4: uuidv4 } = require("uuid");
-
 router.post("/register", async (req, res) => {
   try {
     const { email, password, role, name, gender, token } = req.body;
@@ -32,7 +31,6 @@ router.post("/register", async (req, res) => {
       gender,
       teacherId: finalTeacherId,
     });
-
     await newUser.save();
 
     res.status(201).json({
@@ -44,16 +42,19 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-
-    if (!user || user.password !== password) {
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
+    const isMatch = await user.comparePassword(password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    user.password = undefined;
 
     res.json({
       user,
